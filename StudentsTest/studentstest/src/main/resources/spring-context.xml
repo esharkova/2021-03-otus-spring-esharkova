@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- TODO: определите бин класса ru.otus.spring.dao.PersonDaoSimple -->
+
+    <bean id="questionDao" class="ru.diasoft.studentstest.dao.QuestionDaoSimple">
+
+    </bean>
+
+    <bean id="questionResource" class="ru.diasoft.studentstest.dao.QuestionResource">
+        <property name="template" value="/questions.csv"/>
+    </bean>
+
+    <!-- TODO: определите бин класса ru.otus.spring.PersonServiceImpl -->
+
+</beans>
