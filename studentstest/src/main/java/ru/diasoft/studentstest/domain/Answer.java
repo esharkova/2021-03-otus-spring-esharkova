@@ -10,6 +10,11 @@ public class Answer {
         this.answertext = answertext;
     }
 
+    public Answer(String answertext){
+        this.answertext = answertext;
+    }
+
+
     public String getAnswertext() {
         return answertext;
     }

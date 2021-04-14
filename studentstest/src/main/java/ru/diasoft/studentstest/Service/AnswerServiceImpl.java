@@ -12,7 +12,7 @@ public class AnswerServiceImpl implements AnswerService {
         this.dao = dao;
     }
 
-    public Answer createAnswer(int number , String answer) {
-        return dao.addAnswer(number, answer);
+    public Answer createAnswer(String answer) {
+        return dao.addAnswer(answer);
     }
 }

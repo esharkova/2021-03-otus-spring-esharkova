@@ -6,8 +6,8 @@ import ru.diasoft.studentstest.domain.Answer;
 @Component
 public class AnswerDaoSimple implements AnswerDao{
 
-    public Answer addAnswer(int number, String answer) {
-        return new Answer(number, answer);
+    public Answer addAnswer(String answer) {
+        return new Answer(answer);
     }
 
 }
