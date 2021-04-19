@@ -1,49 +1,25 @@
 package ru.diasoft.studentstest;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.io.Resource;
-import ru.diasoft.studentstest.dao.QuestionDao;
-import ru.diasoft.studentstest.dao.QuestionResource;
-import ru.diasoft.studentstest.domain.Question;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import ru.diasoft.studentstest.Service.TestingService;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 
-/**
- * Hello world!
- *
- */
-public class App 
+@ComponentScan(basePackages = "ru.diasoft")
+public class App
 {
     public static void main( String[] args ) throws IOException {
 
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
-        QuestionDao questionDao = context.getBean(QuestionDao.class);
-        QuestionResource questionResource = context.getBean(QuestionResource.class);
-        Resource resource = questionResource.getTemplate();
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(App.class);
+        TestingService service = context.getBean(TestingService.class);
 
-        System.out.println(resource.getFilename());
-        InputStream is = resource.getInputStream();
-
-        try (InputStreamReader streamReader =
-                     new InputStreamReader(is, StandardCharsets.UTF_8);
-             BufferedReader reader = new BufferedReader(streamReader)) {
-
-            String line;
-            int i = 1;
-            while ((line = reader.readLine()) != null) {
-                //System.out.println(line);
-                Question question = questionDao.findByNumber(i, line);
-                System.out.println(question.getQuestionnumber() +". "+ question.getQuestiontext());
-                i++;
-            }
-
+        try {
+            service.testing();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
     }
 }
