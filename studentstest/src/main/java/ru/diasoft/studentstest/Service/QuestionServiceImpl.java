@@ -13,7 +13,7 @@ public class QuestionServiceImpl implements QuestionService {
         this.dao = dao;
     }
 
-    public Question getByNumber(int number ,String question, String right_answer) {
+    public Question getByNumber(int number, String question, String right_answer) {
         return dao.findByNumber(number, question, right_answer);
     }
 

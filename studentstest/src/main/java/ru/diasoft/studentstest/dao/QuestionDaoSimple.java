@@ -37,27 +37,30 @@ public class QuestionDaoSimple implements QuestionDao {
         int i = 1, charindex1, charindex2;
         String question_str, right_answer_str;
 
-        InputStream is = resourceFile.getInputStream();
-        try (InputStreamReader streamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
-             BufferedReader reader = new BufferedReader(streamReader)) {
+        try (InputStream is = resourceFile.getInputStream()) {
+            try (InputStreamReader streamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
+                 BufferedReader reader = new BufferedReader(streamReader)) {
 
-            while ((line = reader.readLine()) != null) {
-                //System.out.println(line);
-                charindex1 = line.indexOf("(");
-                charindex2 = line.indexOf(")");
+                while ((line = reader.readLine()) != null) {
+                    //System.out.println(line);
+                    charindex1 = line.indexOf("(");
+                    charindex2 = line.indexOf(")");
 
-                question_str = line.substring(0, charindex1);
-                right_answer_str = line.substring(charindex1 + 1, charindex2);
+                    question_str = line.substring(0, charindex1);
+                    right_answer_str = line.substring(charindex1 + 1, charindex2);
 
-                //вопрос
-                //Question question = questionDao.findByNumber(i, question_str, right_answer_str);
-                Question question = addQuestion(i, question_str, right_answer_str);
-                //System.out.println(question.getQuestionnumber() +". "+ question.getQuestiontext());
-                list_question.add(question);
-                i++;
+                    //вопрос
+                    //Question question = questionDao.findByNumber(i, question_str, right_answer_str);
+                    Question question = addQuestion(i, question_str, right_answer_str);
+                    //System.out.println(question.getQuestionnumber() +". "+ question.getQuestiontext());
+                    list_question.add(question);
+                    i++;
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
