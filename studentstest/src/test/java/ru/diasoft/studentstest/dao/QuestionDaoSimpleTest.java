@@ -4,10 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.Resource;
-import ru.diasoft.studentstest.Config.AppConfig;
 
 import java.io.IOException;
 
@@ -24,11 +22,11 @@ class QuestionDaoSimpleTest {
 
     @DisplayName("должен возвращать список вопросов")
     @Test
-    void getList_question() throws IOException {
+    void getListQuestionTest() throws IOException {
 
         QuestionDaoSimple dao = new QuestionDaoSimple(resourceFile);
 
-        assertNotNull(dao.getList_question());
+        assertNotNull(dao.getListQuestion());
 
     }
 

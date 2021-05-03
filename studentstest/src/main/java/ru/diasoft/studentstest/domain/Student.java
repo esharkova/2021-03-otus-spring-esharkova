@@ -28,4 +28,8 @@ public class Student {
     public void setResult(Boolean result) {
         this.result = result;
     }
+
+    public String getResultText(){
+        return this.surname + " " + this.name + " " + (this.result ? "Тест успешно пройден!" : "Тест не пройден!");
+    }
 }

@@ -29,7 +29,7 @@ public class QuestionDaoSimple implements QuestionDao {
         return new Question(number, question, right_answer);
     }
 
-    public List<Question> getList_question() throws IOException {
+    public List<Question> getListQuestion() throws IOException {
 
         List<Question> list_question = new ArrayList<Question>(); //массив вопросов
 
