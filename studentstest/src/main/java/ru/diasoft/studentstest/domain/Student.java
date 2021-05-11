@@ -29,7 +29,7 @@ public class Student {
         this.result = result;
     }
 
-    public String getResultText(){
-        return this.surname + " " + this.name + " " + (this.result ? "Тест успешно пройден!" : "Тест не пройден!");
+    public void getResultText(){
+        System.out.println(this.surname + " " + this.name + " " + (this.result ? "Тест успешно пройден!" : "Тест не пройден!"));
     }
 }

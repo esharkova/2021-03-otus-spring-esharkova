@@ -23,7 +23,7 @@ public class Question {
         return questionnumber;
     }
 
-    public String getRight_answer() {
+    public String getRightAnswer() {
         return right_answer;
     }
 }

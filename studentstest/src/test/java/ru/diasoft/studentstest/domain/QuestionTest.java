@@ -14,7 +14,7 @@ class QuestionTest {
 
         assertEquals(question.getQuestionnumber(),1);
         assertEquals(question.getQuestiontext(),"Question");
-        assertEquals(question.getRight_answer(),"RightAnswer");
+        assertEquals(question.getRightAnswer(),"RightAnswer");
     }
 
 }
