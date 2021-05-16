@@ -10,6 +10,7 @@ public class Student {
     public Student(String surname, String name){
         this.surname = surname;
         this.name = name;
+        this.result = false;
     }
 
     public String getName() {
@@ -26,5 +27,9 @@ public class Student {
 
     public void setResult(Boolean result) {
         this.result = result;
+    }
+
+    public void getResultText(){
+        System.out.println(this.surname + " " + this.name + " " + (this.result ? "Тест успешно пройден!" : "Тест не пройден!"));
     }
 }

@@ -1,19 +1,13 @@
 package ru.diasoft.studentstest.Service;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import ru.diasoft.studentstest.dao.AnswerDao;
 import ru.diasoft.studentstest.dao.QuestionDao;
 import ru.diasoft.studentstest.domain.Answer;
 import ru.diasoft.studentstest.domain.Question;
 import ru.diasoft.studentstest.domain.Student;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,36 +29,44 @@ public class TestingServiceImpl implements TestingService {
 
         Student student = readerService.getStudent();
 
-        List<Answer> list_answer = new ArrayList<Answer>(); //массив ответов
+        //List<Answer> listAnswer = new ArrayList<Answer>(); //массив ответов
 
-        int count_right_answer = 0;
+        for (int i = 0; i < questionDao.getListQuestion().size(); i++) {
 
-        for (int i = 0; i < questionDao.getList_question().size(); i++) {
-
-            System.out.println(questionDao.getList_question().get(i).getQuestionnumber() + ". " + questionDao.getList_question().get(i).getQuestiontext());
-            Answer answer = readerService.getAnswer();
-            list_answer.add(answer);
+            System.out.println(questionDao.getListQuestion().get(i).getQuestionnumber() + ". " + questionDao.getListQuestion().get(i).getQuestiontext());
+            readerService.saveAnswer();
+            //listAnswer.add(answer);
         }
 
+
+
+        if (checkAnswers(questionDao.getListQuestion(), readerService.getAnswerList())>= Integer.parseInt(count)) {
+            student.setResult(true);
+        } else {
+            student.setResult(false);
+        }
+
+        student.getResultText();
+
+
+    }
+
+    @Override
+    public int checkAnswers(List<Question> questionList, List<Answer> answerList) {
+
+        int countRightAnswer = 0;
+
         //сравнение ответа на вопрос и правильного ответа
-        for (int j = 0; j < questionDao.getList_question().size(); j++) {
-            System.out.println(questionDao.getList_question().get(j).getQuestiontext() + "Правильный ответ: " + questionDao.getList_question().get(j).getRight_answer());
-            System.out.println("Дан ответ: " + list_answer.get(j).getAnswertext());
-            if (list_answer.get(j).getAnswertext().equals(questionDao.getList_question().get(j).getRight_answer())) {
-                count_right_answer++;
+        for (int j = 0; j < questionList.size(); j++) {
+            System.out.println(questionList.get(j).getQuestiontext() + "Правильный ответ: " + questionList.get(j).getRightAnswer());
+            System.out.println("Дан ответ: " + answerList.get(j).getAnswertext());
+            if (answerList.get(j).getAnswertext().equals(questionList.get(j).getRightAnswer())) {
+                countRightAnswer++;
                 System.out.println("Правильно!");
             } else {
                 System.out.println("НЕ правильно!");
             }
         }
-
-        System.out.println("Итого правильных ответов " + count_right_answer);
-        if (count_right_answer >= Integer.parseInt(count)) {
-            student.setResult(true);
-        } else {
-            student.setResult(false);
-        }
-        System.out.println(student.getSurname() + " " + student.getName() + " " + (student.getResult() ? "Тест успешно пройден!" : "Тест не пройден!"));
-
+        return countRightAnswer;
     }
 }

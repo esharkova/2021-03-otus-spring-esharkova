@@ -8,6 +8,6 @@ import java.util.List;
 public interface QuestionDao {
     Question findByNumber(int number, String question, String right_answer);
     Question addQuestion(int number, String question, String right_answer);
-    List<Question> getList_question() throws IOException;
+    List<Question> getListQuestion() throws IOException;
 
 }
