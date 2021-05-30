@@ -3,3 +3,8 @@ testing:
   count: 4
   locale: en_UK
 
+spring:
+  shell:
+    interactive:
+      enabled: false
+

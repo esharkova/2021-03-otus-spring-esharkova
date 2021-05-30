@@ -12,13 +12,6 @@ public class StudentsTestApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(StudentsTestApplication.class, args);
-		TestingService service = ctx.getBean(TestingService.class);
-
-		try {
-			service.testing();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 }

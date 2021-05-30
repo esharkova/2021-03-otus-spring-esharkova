@@ -25,10 +25,6 @@ public class QuestionDaoSimple implements QuestionDao{
         this.resourceFile = config.getFileName();
     }
 
-    /*public Question findByNumber(int number, String question, String rightAnswer) {
-        return new Question(number, question, rightAnswer);
-    }*/
-
     public Question addQuestion(int number, String question, String rightAnswer) {
         return new Question(number, question, rightAnswer);
     }

@@ -1,5 +1,5 @@
 testing:
-  filename: /questions.csv
+  filename: /questions_ru_RU.csv
   count: 4
-  locale: en_UK
+  locale: ru_RU
 

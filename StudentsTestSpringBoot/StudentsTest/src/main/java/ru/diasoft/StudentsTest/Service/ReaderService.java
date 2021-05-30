@@ -4,6 +4,7 @@ import ru.diasoft.StudentsTest.domain.Answer;
 import ru.diasoft.StudentsTest.domain.Student;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.List;
 
 public interface ReaderService {
@@ -11,9 +12,7 @@ public interface ReaderService {
 
     Student getStudent() throws IOException;
 
-    //void close() throws IOException;
-
-    //void addAnswer(Answer answer);
+    String saveStudent(String surname, String name);
 
     List<Answer> getAnswerList();
 }
