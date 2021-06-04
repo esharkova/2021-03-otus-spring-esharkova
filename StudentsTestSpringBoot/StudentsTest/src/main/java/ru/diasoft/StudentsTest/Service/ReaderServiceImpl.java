@@ -23,6 +23,8 @@ public class ReaderServiceImpl implements ReaderService {
     private final MessageSource messageSource;
     private final Locale locale;
 
+    private Student student;
+
     public ReaderServiceImpl(StudentDao studentDao, AnswerDao answerDao, MessageSource messageSource, AppConfig config) {
         this.studentDao = studentDao;
         this.answerDao = answerDao;
@@ -48,14 +50,23 @@ public class ReaderServiceImpl implements ReaderService {
     @Override
     public Student getStudent() throws IOException{
 
+        if (student == null){
+
         System.out.println(messageSource.getMessage("strings.surname", null, locale));
         String surname = bufferedReader.readLine();
         System.out.println(messageSource.getMessage("strings.name", null, locale));
         String name = bufferedReader.readLine();
 
-        Student student =  studentDao.addStudent(surname,name);
+        student =  studentDao.addStudent(surname,name);}
 
         return student;
 
+    }
+
+
+    @Override
+    public String saveStudent(String surname, String name) {
+        student =  studentDao.addStudent(surname,name);
+        return messageSource.getMessage("strings.welcome", null, locale) + student.getSurname() + " " + student.getName();
     }
 }

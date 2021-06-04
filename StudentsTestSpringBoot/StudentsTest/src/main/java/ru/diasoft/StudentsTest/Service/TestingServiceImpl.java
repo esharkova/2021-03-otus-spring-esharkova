@@ -40,16 +40,14 @@ public class TestingServiceImpl implements TestingService{
             readerService.saveAnswer();
         }
 
-
-
         if (checkAnswers(questionDao.getListQuestion(), readerService.getAnswerList())>= count) {
             student.setResult(true);
         } else {
             student.setResult(false);
         }
 
-        student.getResultText();
-
+        System.out.println(student.getSurname() + " " + student.getName() + " "
+                + (student.getResult() ? messageSource.getMessage("strings.success", null, locale) : messageSource.getMessage("strings.failure", null, locale)));
 
     }
 
