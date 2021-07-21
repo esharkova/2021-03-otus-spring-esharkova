@@ -1,5 +1,6 @@
 package ru.diasoft.library.service;
 
+import org.springframework.boot.jdbc.metadata.CommonsDbcp2DataSourcePoolMetadata;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import lombok.RequiredArgsConstructor;
@@ -79,7 +80,6 @@ public class ShellCommands {
             }
         }
 
-
         bookService.create(title, authors, genres);
 
         System.out.println("После добавления:");
@@ -91,19 +91,13 @@ public class ShellCommands {
         }
     }
 
-
     @ShellMethod(value = "Find Book",  key = {"FB", "Find Book"})
     public void FindBook(String title) {
-
         if (bookService.getByTitle(title).isPresent())
             System.out.println(bookService.getByTitle(title));
         else
             System.out.println("Книга не найдена!");
-
-
-
     }
-
 
     @ShellMethod(value = "Delete Book",  key = {"DB", "Delete Book"})
     public void DeleteBook(String title) {
@@ -112,7 +106,6 @@ public class ShellCommands {
             bookService.deleteById(bookService.getByTitle(title).orElse(null).getId());
         else
             System.out.println("Книга не найдена!");
-
     }
 
     @ShellMethod(value = "Add Comment",  key = {"AddC", "Add Comment"})
@@ -137,12 +130,10 @@ public class ShellCommands {
 
         if (commentedBook.equals(Optional.empty())){
             System.out.println("Книга не найдена!");
-
         }
         else{
             System.out.println(commentedBook.getComments().toString());
         }
-
     }
 
     @ShellMethod(value = "Show All Comments",  key = {"AC", "All Comments"})
@@ -158,15 +149,12 @@ public class ShellCommands {
 
         if (commentedBook.equals(Optional.empty())){
             System.out.println("Книга не найдена!");
-
         }
         else{
             commentedBook.getComments().clear();
             bookService.save(commentedBook);
         }
-
     }
-
 
     @ShellMethod(value = "Update Book",  key = {"UB", "Update Book"})
     public void UpdateBook(Long id, String title, String authorName, String genreName) {
@@ -177,7 +165,6 @@ public class ShellCommands {
         List<String> authors = Arrays.asList(authorName.split(","));
 
         for(String author: authors){
-
             if (authorService.getByName(author).equals(Optional.empty())){
                 authorService.create(author);
             }
@@ -186,12 +173,10 @@ public class ShellCommands {
         List<String> genres = Arrays.asList(genreName.split(","));
 
         for(String genre: genres){
-
             if (genreService.getByName(genre).equals(Optional.empty())){
                 genreService.create(genre);
             }
         }
-
 
         for(String author: authors) {
             authorList.add(authorService.getByName(author).get());
@@ -215,8 +200,5 @@ public class ShellCommands {
                     + " Автор: " + book.getAuthors()
                     + " Жанр: " +book.getGenres());
         }
-
     }
-
 }
-

@@ -7,11 +7,8 @@ import java.util.List;
 
 public interface CommentService {
 
-    List<Comment> getAllByBook(Book book);
 
     Comment addComment(String commentText);
-
-    void deleteByBook(Book book);
 
     List<Comment> getAll();
 }

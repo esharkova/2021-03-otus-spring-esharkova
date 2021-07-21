@@ -1,23 +1,23 @@
 package ru.diasoft.library.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "book")
 @NamedEntityGraph(name = "entity-graph",
-        attributeNodes = {@NamedAttributeNode("authors"),@NamedAttributeNode("genres"),@NamedAttributeNode("comments")})
+        attributeNodes = {@NamedAttributeNode("authors"),@NamedAttributeNode("genres")})
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,9 +41,17 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres;
 
-
-    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Set<Comment> comments;
 
+    @Override
+    public String toString() {
+        return "Название: " + title
+             + " Авторы: " + authors.stream().map(Author::getName).collect(Collectors.joining(", "))
+             + " Жанры: " +  genres.stream().map(Genre::getName).collect(Collectors.joining(", "));
+    }
+
 }
+

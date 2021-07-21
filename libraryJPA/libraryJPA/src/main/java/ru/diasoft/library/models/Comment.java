@@ -1,14 +1,15 @@
 package ru.diasoft.library.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "comment")
 public class Comment {
@@ -21,7 +22,7 @@ public class Comment {
     @Column(name = "comment_text", nullable = false, unique = false)
     private String commentText;
 
-    public Comment(String commentText){
+    public Comment(String commentText) {
         this.commentText = commentText;
     }
 

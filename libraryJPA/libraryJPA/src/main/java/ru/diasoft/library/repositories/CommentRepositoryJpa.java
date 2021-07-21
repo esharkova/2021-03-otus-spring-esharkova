@@ -9,8 +9,6 @@ import java.util.Optional;
 
 public interface CommentRepositoryJpa {
 
-    List<Comment> getAllByBook(Book book);
-
     List<Comment> getAll();
 
     Comment save(Comment comment);

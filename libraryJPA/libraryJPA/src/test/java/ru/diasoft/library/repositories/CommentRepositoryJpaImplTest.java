@@ -45,7 +45,7 @@ class CommentRepositoryJpaImplTest {
 
         val commentsBeforeSave = repositoryJpa.getAll().size();
 
-        Comment comment = new Comment(0, COMMENT_TEXT);
+        Comment comment = new Comment(COMMENT_TEXT);
         repositoryJpa.save(comment);
 
         val commentsAfterSave = repositoryJpa.getAll().size();

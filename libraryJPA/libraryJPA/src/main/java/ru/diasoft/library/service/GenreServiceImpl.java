@@ -11,22 +11,24 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class GenreServiceImpl implements GenreService {
 
     private final GenreRepositoryJpa genreRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Genre> getAll() {
         return genreRepository.getAll();
     }
 
     @Override
+    @Transactional
     public Genre create(String name) {
             return genreRepository.save(new Genre(0,name));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Genre> getByName(String name) {
         return genreRepository.getByName(name);
 

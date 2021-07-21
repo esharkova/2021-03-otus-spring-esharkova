@@ -11,29 +11,20 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class CommentServiceImpl implements CommentService {
     private final CommentRepositoryJpa commentRepository;
 
     @Override
-    public List<Comment> getAllByBook(Book book) {
-        return commentRepository.getAllByBook(book);
-    }
-
-    @Override
+    @Transactional
     public Comment addComment(String commentText) {
 
         Comment newComment = new Comment(commentText);
         return commentRepository.save(newComment);
 
     }
-
+    
     @Override
-    public void deleteByBook(Book book) {
-        commentRepository.deleteByBook(book);
-    }
-
-    @Override
+    @Transactional(readOnly = true)
     public List<Comment> getAll() {
         return commentRepository.getAll();
     }

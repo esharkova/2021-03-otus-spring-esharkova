@@ -19,16 +19,6 @@ public class CommentRepositoryJpaImpl implements CommentRepositoryJpa {
     private EntityManager em;
 
     @Override
-    public List<Comment> getAllByBook(Book book) {
-        TypedQuery<Comment> query = em.createQuery("select c " +
-                        "from Comment c " +
-                        "where c.book = :book",
-                Comment.class);
-        query.setParameter("book", book);
-        return query.getResultList();
-    }
-
-    @Override
     public List<Comment> getAll() {
 
         TypedQuery<Comment> query = em.createQuery("select c " +
@@ -46,7 +36,6 @@ public class CommentRepositoryJpaImpl implements CommentRepositoryJpa {
         } else {
             return em.merge(comment);
         }
-
     }
 
     @Override

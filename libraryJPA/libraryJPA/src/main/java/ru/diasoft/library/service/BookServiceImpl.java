@@ -9,26 +9,21 @@ import ru.diasoft.library.models.Comment;
 import ru.diasoft.library.models.Genre;
 import ru.diasoft.library.repositories.AuthorRepositoryJpa;
 import ru.diasoft.library.repositories.BookRepositoryJpa;
-import ru.diasoft.library.repositories.CommentRepositoryJpa;
 import ru.diasoft.library.repositories.GenreRepositoryJpa;
 
-import javax.persistence.NoResultException;
 import java.util.*;
-
-import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class BookServiceImpl implements BookService {
 
     private final BookRepositoryJpa bookRepository;
     private final AuthorRepositoryJpa authorRepository;
     private final GenreRepositoryJpa genreRepository;
-    private final CommentRepositoryJpa commentRepository;
 
     @Override
+    @Transactional
     public Book create(String title, List<String> authors, List<String> genres) {
 
         Set<Author> authorList = new HashSet<>();
@@ -43,35 +38,39 @@ public class BookServiceImpl implements BookService {
         }
 
         Book newBook = new Book(0, title, authorList, genreList, null);
-        System.out.println(newBook);
         bookRepository.save(newBook);
 
         return newBook;
     }
 
     @Override
+    @Transactional
     public Book save(Book book) {
 
         return bookRepository.save(book);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Book getById(long id) {
         return bookRepository.getById(id).orElse(null);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Book> getByTitle(String title) {
 
         return bookRepository.getByTitle(title);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Book> getAll() {
         return bookRepository.getAll();
     }
 
     @Override
+    @Transactional
     public void deleteById(long id) {
         bookRepository.deleteById(id);
 

@@ -1,15 +1,11 @@
 package ru.diasoft.library.repositories;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-import ru.diasoft.library.models.Author;
 import ru.diasoft.library.models.Book;
-import ru.diasoft.library.models.Genre;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Repository
 public class BookRepositoryJpaImpl implements BookRepositoryJpa {
@@ -22,6 +18,7 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa {
         return Optional.ofNullable(em.find(Book.class, id));
     }
 
+
     @Override
     public Optional<Book> getByTitle(String title) {
         EntityGraph<?> entityGraph = em.getEntityGraph("entity-graph");
@@ -30,7 +27,6 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa {
                         "where b.title = :title",
                 Book.class);
         query.setParameter("title", title);
-
         query.setHint("javax.persistence.fetchgraph", entityGraph);
 
         try {
@@ -38,7 +34,6 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa {
         } catch (NoResultException e) {
             return Optional.empty();
         }
-
     }
 
     @Override
@@ -50,15 +45,14 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa {
         return query.getResultList();
     }
 
+
     @Override
     public void deleteById(long id) {
 
-        Query query = em.createQuery("delete from Book b where b.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        Book deletedBook = em.find(Book.class, id);
+        em.remove(deletedBook);
 
     }
-
 
     @Override
     public Book save(Book book) {

@@ -2,6 +2,7 @@ package ru.diasoft.library.service;
 
 import ru.diasoft.library.models.Author;
 import ru.diasoft.library.models.Book;
+import ru.diasoft.library.models.Comment;
 import ru.diasoft.library.models.Genre;
 
 import java.util.List;
