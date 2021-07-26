@@ -1,5 +1,6 @@
 package ru.diasoft.library.service;
 
+import ru.diasoft.library.dto.BookCommetDto;
 import ru.diasoft.library.models.Author;
 import ru.diasoft.library.models.Book;
 import ru.diasoft.library.models.Comment;
@@ -18,6 +19,8 @@ public interface BookService {
     Book getById(long id);
 
     Optional<Book> getByTitle(String title);
+
+    List<BookCommetDto> getCommetByBook(String title);
 
     List<Book> getAll();
 

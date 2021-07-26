@@ -118,7 +118,7 @@ public class ShellCommands {
 
         }
         else{
-            commentedBook.getComments().add(commentService.addComment(commentText));
+            commentedBook.getComments().add(new Comment(0,commentText));
             bookService.save(commentedBook);
         }
     }
@@ -132,7 +132,10 @@ public class ShellCommands {
             System.out.println("Книга не найдена!");
         }
         else{
-            System.out.println(commentedBook.getComments().toString());
+            /**Вариант работы через проекцию DTO**/
+            System.out.println(bookService.getCommetByBook(title));
+            /**Вариант работы через сущность, достаем комментариий с помощью join fetch**/
+            //System.out.println(commentedBook.getComments().toString());
         }
     }
 

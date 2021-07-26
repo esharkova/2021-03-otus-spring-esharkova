@@ -1,6 +1,7 @@
 package ru.diasoft.library.repositories;
 
 import org.springframework.stereotype.Repository;
+import ru.diasoft.library.dto.BookCommetDto;
 import ru.diasoft.library.models.Book;
 
 import javax.persistence.*;
@@ -21,9 +22,9 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa {
 
     @Override
     public Optional<Book> getByTitle(String title) {
-        EntityGraph<?> entityGraph = em.getEntityGraph("entity-graph");
+        EntityGraph<?> entityGraph = em.getEntityGraph("book-authors-genres-graph");
         TypedQuery<Book> query = em.createQuery("select b " +
-                        "from Book b " +
+                        "from Book b left join fetch b.comments " +
                         "where b.title = :title",
                 Book.class);
         query.setParameter("title", title);
@@ -39,10 +40,27 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa {
     @Override
     public List<Book> getAll() {
 
-        EntityGraph<?> entityGraph = em.getEntityGraph("entity-graph");
+        EntityGraph<?> entityGraph = em.getEntityGraph("book-authors-genres-graph");
         TypedQuery<Book> query = em.createQuery("select b from Book b", Book.class);
         query.setHint("javax.persistence.fetchgraph", entityGraph);
         return query.getResultList();
+    }
+
+    @Override
+    public List<BookCommetDto> getCommetByBook(String title) {
+
+        TypedQuery<BookCommetDto> query = em.createQuery(
+                    "select new " +
+                            "   ru.diasoft.library.dto.BookCommetDto(" +
+                            "       b.id, com.commentText" +
+                            "   ) " +
+                            "from Book b " +
+                            "join b.comments com " +
+                            "where b.title = :title", BookCommetDto.class);
+        query.setParameter("title", title);
+
+        return query.getResultList();
+
     }
 
 

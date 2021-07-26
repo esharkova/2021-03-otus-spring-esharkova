@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Builder
 @Entity
 @Table(name = "book")
-@NamedEntityGraph(name = "entity-graph",
+@NamedEntityGraph(name = "book-authors-genres-graph",
         attributeNodes = {@NamedAttributeNode("authors"),@NamedAttributeNode("genres")})
 public class Book {
     @Id
