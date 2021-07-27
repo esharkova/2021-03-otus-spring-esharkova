@@ -42,7 +42,7 @@ public class Book {
     private Set<Genre> genres;
 
     @Fetch(value = FetchMode.SUBSELECT)
-    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "book_id")
     private Set<Comment> comments;
 
