@@ -3,10 +3,8 @@ package ru.diasoft.library.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.diasoft.library.dto.BookCommetDto;
 import ru.diasoft.library.models.Author;
 import ru.diasoft.library.models.Book;
-import ru.diasoft.library.models.Comment;
 import ru.diasoft.library.models.Genre;
 import ru.diasoft.library.repositories.AuthorRepositoryJpa;
 import ru.diasoft.library.repositories.BookRepositoryJpa;
@@ -62,11 +60,6 @@ public class BookServiceImpl implements BookService {
     public Optional<Book> getByTitle(String title) {
 
         return bookRepository.getByTitle(title);
-    }
-
-    @Override
-    public List<BookCommetDto> getCommetByBook(String title) {
-        return bookRepository.getCommetByBook(title);
     }
 
     @Override

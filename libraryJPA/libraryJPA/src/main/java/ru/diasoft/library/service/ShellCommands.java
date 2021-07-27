@@ -5,6 +5,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellOption;
+import org.springframework.transaction.annotation.Transactional;
 import ru.diasoft.library.models.Author;
 import ru.diasoft.library.models.Book;
 import ru.diasoft.library.models.Comment;
@@ -108,6 +109,7 @@ public class ShellCommands {
             System.out.println("Книга не найдена!");
     }
 
+    @Transactional
     @ShellMethod(value = "Add Comment",  key = {"AddC", "Add Comment"})
     public void AddComment(String title, String commentText) {
 
@@ -123,6 +125,7 @@ public class ShellCommands {
         }
     }
 
+    @Transactional(readOnly = true)
     @ShellMethod(value = "Show Book Comments",  key = {"SC", "Show Book Comments"})
     public void ShowBookComments(String title) {
 
@@ -132,10 +135,7 @@ public class ShellCommands {
             System.out.println("Книга не найдена!");
         }
         else{
-            /**Вариант работы через проекцию DTO**/
-            System.out.println(bookService.getCommetByBook(title));
-            /**Вариант работы через сущность, достаем комментариий с помощью join fetch**/
-            //System.out.println(commentedBook.getComments().toString());
+            System.out.println(commentedBook.getComments().toString());
         }
     }
 
@@ -145,6 +145,7 @@ public class ShellCommands {
         System.out.println(commentService.getAll());
     }
 
+    @Transactional
     @ShellMethod(value = "Delete Book Comments",  key = {"DC", "Delete Book Comments"})
     public void DeleteBookComments(String title) {
 
