@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    initialization-mode: always
+    schema: schema.sql
+    data: data.sql
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+    show-sql: true
+
+logging:
+  level:
+    root: error
