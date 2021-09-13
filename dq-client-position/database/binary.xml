@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <id>binary-with-deps</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <fileSets>
+        <fileSet>
+            <directory>target/</directory>
+            <outputDirectory>lib</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+            <excludes>
+                <exclude>*-sources.jar</exclude>
+                <exclude>*-javadoc.jar</exclude>
+                <exclude>database-*.jar</exclude>
+            </excludes>
+        </fileSet>
+    </fileSets>
+    <files>
+        <file>
+            <source>${parentJAR}/readme.pdf</source>
+            <outputDirectory></outputDirectory>
+        </file>
+        <file>
+            <source>${parentJAR}/readme_en.pdf</source>
+            <outputDirectory></outputDirectory>
+        </file>
+        <file>
+            <source>${parentJAR}/dm.bat</source>
+            <outputDirectory></outputDirectory>
+        </file>
+        <file>
+            <source>${parentJAR}/dm.sh</source>
+            <outputDirectory></outputDirectory>
+        </file>
+    </files>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+            <unpack>false</unpack>
+            <useTransitiveDependencies>false</useTransitiveDependencies>
+        </dependencySet>
+    </dependencySets>
+</assembly>

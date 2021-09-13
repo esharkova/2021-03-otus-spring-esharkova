@@ -1,0 +1,609 @@
+asyncapi: 2.0.0
+info:
+  title: DQ Client Position application
+  version: '1.0.0'
+channels:
+  #Позиция клиента.
+  #Формат: Одно событие - одна операция
+  receivePosOperation:
+    subscribe:
+      message:
+        $ref: '#/components/messages/posOperationDto'
+  fixingDay:
+    subscribe:
+      message:
+        $ref: '#/components/messages/fixingDay'
+  receiveInstitutionInsert:
+    subscribe:
+      message:
+        $ref: '#/components/messages/InstitutionInsertDto'
+  receiveInstitutionUpdate:
+    subscribe:
+      message:
+        $ref: '#/components/messages/InstitutionUpdateDto'
+  receiveInstitutionDelete:
+    subscribe:
+      message:
+        $ref: '#/components/messages/InstitutionDeleteDto'
+  receiveLegalInsert:
+    subscribe:
+      message:
+        $ref: '#/components/messages/LegalInsertDto'
+  receiveLegalUpdate:
+    subscribe:
+      message:
+        $ref: '#/components/messages/LegalUpdateDto'
+  receiveLegalDelete:
+    subscribe:
+      message:
+        $ref: '#/components/messages/LegalDeleteDto'
+  receivePersonInsert:
+    subscribe:
+      message:
+        $ref: '#/components/messages/PersonInsertDto'
+  receivePersonUpdate:
+    subscribe:
+      message:
+        $ref: '#/components/messages/PersonUpdateDto'
+  receivePersonDelete:
+    subscribe:
+      message:
+        $ref: '#/components/messages/PersonDeleteDto'
+components:
+  messages:
+    posOperationDto:
+      payload:
+        $ref: '#/components/schemas/posOperationDto'
+    fixingDay:
+      payload:
+        $ref: '#/components/schemas/fixingDayDto'
+    InstitutionInsertDto:
+      payload:
+        $ref: '#/components/schemas/InstitutionInsertDto'
+    InstitutionUpdateDto:
+      payload:
+        $ref: '#/components/schemas/InstitutionUpdateDto'
+    InstitutionDeleteDto:
+      payload:
+        $ref: '#/components/schemas/InstitutionDeleteDto'
+    LegalInsertDto:
+      payload:
+        $ref: '#/components/schemas/LegalInsertDto'
+    LegalUpdateDto:
+      payload:
+        $ref: '#/components/schemas/LegalUpdateDto'
+    LegalDeleteDto:
+      payload:
+        $ref: '#/components/schemas/LegalDeleteDto'
+    PersonInsertDto:
+      payload:
+        $ref: '#/components/schemas/PersonInsertDto'
+    PersonUpdateDto:
+      payload:
+        $ref: '#/components/schemas/PersonUpdateDto'
+    PersonDeleteDto:
+      payload:
+        $ref: '#/components/schemas/PersonDeleteDto'
+  schemas:
+    fixingDayDto:
+      type: object
+      properties:
+        isFixed:
+          type: boolean
+    posOperationDto:
+      type: object
+      properties:
+        tradingMode:
+          type: string
+        market:
+          type: integer
+          format: int32
+        tradingAcc:
+          type: string
+        operKind:
+          type: integer
+          format: int32
+        tradePlace:
+          type: integer
+          format: int32
+        custody:
+          type: string
+        depoAccTyp:
+          type: integer
+          format: int32
+        dealType:
+          type: integer
+          format: int32
+        directionREPO:
+          type: integer
+          format: int32
+        agreementID:
+            type: integer
+            format: int64
+        clientCode:
+            type: string
+        tradePortfolio:
+            type: string
+        assetType:
+            type: integer
+            format: int32
+        direction:
+            type: integer
+            format: int32
+        asset:
+            type: string
+        flowsSettleDate:
+            type: string
+            format: date-time
+        flowsActualDate:
+            type: string
+            format: date-time
+        qtyAmount:
+            type: number
+            format: double
+        depoSubAccount:
+            type: string
+
+    InstitutionInsertDto:
+      type: object
+      properties:
+        Event:
+            type: string
+        InstitutionID:
+            type: integer
+            format: int64
+        InstitutionType:
+            type: integer
+            format: int32
+        InstitutionBrief:
+            type: string
+        InstitutionName:
+            type: string
+        InstitutionEnglishName:
+            type: string
+        InstitutionCompanyName:
+            type: string
+        ResidentFlag:
+            type: integer
+            format: int32
+        INN:
+            type: string
+        BIC:
+            type: string
+        ResidenceCountryID:
+            type: integer
+            format: int64
+        ResidenceCountryBrief:
+            type: string
+        PORTAL:
+            type: string
+        ExternalID:
+            type: integer
+            format: int64
+        BranchID:
+            type: integer
+            format: int64
+        BranchNumber:
+            type: string
+        LatestModificationDate:
+            type: string
+            pattern: '^\d{2}/\d{2}/\d{4}$'
+        ParentID:
+            type: integer
+            format: int64
+        LicenseDate:
+            type: string
+            pattern: '^\d{2}/\d{2}/\d{4}$'
+        UnreliableFlag:
+            type: integer
+            format: int32
+        OwnerShipFormID:
+            type: integer
+            format: int64
+        pAPI_Inst_InsertCode:
+            type: array
+            items:
+              $ref: '#/components/schemas/pAPI_Inst_InsertCodeDto'
+    pAPI_Inst_InsertCodeDto:
+      type: object
+      properties:
+        CodeID:
+            type: integer
+            format: int64
+        CodeTypeID:
+            type: integer
+            format: int64
+        CodeValue:
+            type: string
+
+    InstitutionUpdateDto:
+      type: object
+      properties:
+        Event:
+            type: string
+        InstitutionID:
+            type: integer
+            format: int64
+        InstitutionType:
+            type: integer
+            format: int32
+        InstitutionBrief:
+            type: string
+        InstitutionName:
+            type: string
+        InstitutionEnglishName:
+            type: string
+        InstitutionCompanyName:
+            type: string
+        ResidentFlag:
+            type: integer
+            format: int32
+        INN:
+            type: string
+        BIC:
+            type: string
+        ResidenceCountryID:
+            type: integer
+            format: int64
+        ResidenceCountryBrief:
+            type: string
+        PORTAL:
+            type: string
+        ExternalID:
+            type: integer
+            format: int64
+        BranchID:
+            type: integer
+            format: int64
+        BranchNumber:
+            type: string
+        LatestModificationDate:
+            type: string
+            pattern: '^\d{2}/\d{2}/\d{4}$'
+        ParentID:
+            type: integer
+            format: int64
+        LicenseDate:
+            type: string
+            pattern: '^\d{2}/\d{2}/\d{4}$'
+        UnreliableFlag:
+            type: integer
+            format: int32
+        OwnerShipFormID:
+            type: integer
+            format: int64
+        pAPI_Inst_UpdateCode:
+            type: array
+            items:
+              $ref: '#/components/schemas/pAPI_Inst_UpdateCodeDto'
+    pAPI_Inst_UpdateCodeDto:
+      type: object
+      properties:
+        CodeID:
+            type: integer
+            format: int64
+        CodeTypeID:
+            type: integer
+            format: int64
+        CodeValue:
+            type: string
+        ChangeKind:
+            type: integer
+            format: int32
+
+    InstitutionDeleteDto:
+      type: object
+      properties:
+        Event:
+            type: string
+        InstitutionID:
+            type: integer
+            format: int64
+
+    LegalInsertDto:
+      type: object
+      properties:
+        Event:
+            type: string
+        LegalID:
+            type: integer
+            format: int64
+        Brief:
+            type: string
+        Name:
+            type: string
+        FirmName:
+            type: string
+        EnglishName:
+            type: string
+        INN:
+            type: string
+        BranchID:
+            type: integer
+            format: int64
+        BranchNumber:
+            type: string
+        ExternalID:
+            type: integer
+            format: int64
+        ExternalNumber:
+            type: string
+        ChangeDateTime:
+            type: string
+            pattern: '^\d{2}/\d{2}/\d{4}$'
+        ParentID:
+            type: integer
+            format: int64
+        ContryID:
+            type: integer
+            format: int64
+        CountryBrief:
+            type: string
+        CountryName:
+            type: string
+        CityID:
+            type: integer
+            format: int64
+        CityBrief:
+            type: string
+        CityName:
+            type: string
+        OwnershipFormID:
+            type: integer
+            format: int64
+        OwnershipFormBrief:
+            type: string
+        ResidentFlag:
+            type: integer
+            format: int32
+        BankruptFlag:
+            type: integer
+            format: int32
+        UnreliableFlag:
+            type: integer
+            format: int32
+        pAPI_Legal_InsertCode:
+            type: array
+            items:
+              $ref: '#/components/schemas/pAPI_Inst_InsertCodeDto'
+
+    LegalUpdateDto:
+      type: object
+      properties:
+        Event:
+            type: string
+        LegalID:
+            type: integer
+            format: int64
+        Brief:
+            type: string
+        Name:
+            type: string
+        FirmName:
+            type: string
+        EnglishName:
+            type: string
+        INN:
+            type: string
+        BranchID:
+            type: integer
+            format: int64
+        BranchNumber:
+            type: string
+        ExternalID:
+            type: integer
+            format: int64
+        ExternalNumber:
+            type: string
+        ChangeDate:
+            type: string
+            pattern: '^\d{2}/\d{2}/\d{4}$'
+        ChangeDateTime:
+            type: string
+            pattern: '^\d{2}/\d{2}/\d{4}$'
+        ParentID:
+            type: integer
+            format: int64
+        ContryID:
+            type: integer
+            format: int64
+        CountryBrief:
+            type: string
+        CountryName:
+            type: string
+        OldResident:
+            type: integer
+            format: int32
+        Resident:
+            type: integer
+            format: int32
+        CityID:
+            type: integer
+            format: int64
+        CityBrief:
+            type: string
+        CityName:
+            type: string
+        OwnershipFormID:
+            type: integer
+            format: int64
+        OwnershipFormBrief:
+            type: string
+        BankruptFlag:
+            type: integer
+            format: int32
+        UnreliableFlag:
+            type: integer
+            format: int32
+        pAPI_Legal_UpdateCode:
+            type: array
+            items:
+              $ref: '#/components/schemas/pAPI_Inst_UpdateCodeDto'
+
+    LegalDeleteDto:
+      type: object
+      properties:
+        Event:
+            type: string
+        LegalID:
+            type: integer
+            format: int64
+
+    PersonInsertDto:
+      type: object
+      properties:
+        Event:
+            type: string
+        PersonID:
+            type: integer
+            format: int64
+        PersonBrief:
+            type: string
+        SurName:
+            type: string
+        Name:
+            type: string
+        PatronymicName:
+            type: string
+        SexFlag:
+            type: integer
+            format: int32
+        CitizenCountryID:
+            type: integer
+            format: int64
+        CitizenCountryBrief:
+            type: string
+        CitizenCountryName:
+            type: string
+        CityID:
+            type: integer
+            format: int64
+        CityBrief:
+            type: string
+        BirthDay:
+            type: string
+            pattern: '^\d{2}/\d{2}/\d{4}$'
+        BirthPlace:
+            type: string
+        INN:
+            type: string
+        BranchID:
+            type: integer
+            format: int64
+        ResidentFlag:
+            type: integer
+            format: int32
+        UnreliableFlag:
+            type: integer
+            format: int32
+        BankruptFlag:
+            type: integer
+            format: int32
+        StaffFlag:
+            type: integer
+            format: int32
+        ExternalID:
+            type: integer
+            format: int64
+        ExternalNumber:
+            type: string
+        pAPI_Person_InsertCode:
+            type: array
+            items:
+              $ref: '#/components/schemas/pAPI_Inst_InsertCodeDto'
+
+    PersonUpdateDto:
+      type: object
+      properties:
+        Event:
+            type: string
+        PersonID:
+            type: integer
+            format: int64
+        PersonBrief:
+            type: string
+        SurName:
+            type: string
+        Name:
+            type: string
+        PatronymicName:
+            type: string
+        SexFlag:
+            type: integer
+            format: int32
+        CitizenCountryID:
+            type: integer
+            format: int64
+        CitizenCountryBrief:
+            type: string
+        CitizenCountryName:
+            type: string
+        CityID:
+            type: integer
+            format: int64
+        CityBrief:
+            type: string
+        BirthDay:
+            type: string
+            pattern: '^\d{2}/\d{2}/\d{4}$'
+        BirthPlace:
+            type: string
+        INN:
+            type: string
+        BranchID:
+            type: integer
+            format: int64
+        Resident:
+            type: integer
+            format: int32
+        OldResident:
+            type: integer
+            format: int32
+        ChangeDate:
+            type: string
+            pattern: '^\d{2}/\d{2}/\d{4}$'
+        ChangeDateTime:
+            type: string
+            pattern: '^\d{2}/\d{2}/\d{4}$'
+        UnreliableFlag:
+            type: integer
+            format: int32
+        BankruptFlag:
+            type: integer
+            format: int32
+        StaffFlag:
+            type: integer
+            format: int32
+        ExternalID:
+            type: integer
+            format: int64
+        ExternalNumber:
+            type: string
+        FullNameChangeFlag:
+            type: integer
+            format: int32
+        BirthDayChangeFlag:
+            type: integer
+            format: int32
+        GenderChangeFlag:
+            type: integer
+            format: int32
+        INNChangeFlag:
+            type: integer
+            format: int32
+        BirthPlaceChangeFlag:
+            type: integer
+            format: int32
+        pAPI_Person_UpdateCode:
+            type: array
+            items:
+              $ref: '#/components/schemas/pAPI_Inst_UpdateCodeDto'
+
+    PersonDeleteDto:
+      type: object
+      properties:
+        Event:
+            type: string
+        PersonID:
+            type: integer
+            format: int64

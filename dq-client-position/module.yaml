@@ -1,0 +1,54 @@
+---
+product:
+  shortname: "DQClientPrtf"
+  name: "DQ Портфель клиента"
+  sysname: "DQ Client Portfolio"
+  moduleshortname: "DQCLNTPOS"
+  modulename: "DQ Позиция клиента"
+  modulesysname: "DQ Client Position"
+  vision: "https://conf.diasoft.ru/pages/viewpage.action?pageId=159423568"
+  owner: "szhilko@diasoft.ru"
+  additional:
+    team: "FA#. Брокерское обслуживание и Доверител"
+    productcenter: "ПЦ Финансовые рынки"
+    responsible: "ogrigorev@diasoft.ru"
+    archetype:
+    - "db"
+    - "events"
+    - "zoned_time"
+    - "cache"
+    - "webservice"
+    - "grpc"
+  typebuild: "genkins"
+  wssysname: "dqclntpos"
+  businessobjects:
+  - sysname: "DQCLNTPOS"
+    name: "DQCLNTPOS"
+    plural: "dq-clntposs"
+    tables:
+    - name: "T_DQCLNTPOS"
+      fields:
+      - name: "paramId"
+        type: "numeric(15,0)"
+      - name: "paramName"
+        type: "char(255)"
+      indexes:
+      - name: "PK_T_DQCLNTPOS"
+        isPK: 1
+        isUnique: 1
+        fields: "paramId"
+    attributes:
+    - sysname: "paramId"
+      typename: "java.lang.Long"
+      name: "Идентификатор"
+      description: "Идентификатор"
+      isKey: 1
+      tableName: "T_DQCLNTPOS"
+      fieldName: "paramId"
+    - sysname: "paramName"
+      typename: "java.lang.String"
+      name: "Наименование"
+      description: "Наименование"
+      isKey: 0
+      tableName: "T_DQCLNTPOS"
+      fieldName: "paramName"

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <property name="autoIncrement" value="false" dbms="postgresql"/>
+    <property name="autoIncrement" value="true" dbms="h2"/>
+
+    <changeSet author="mkushcheva" id="POS_Operation_Fill" runInTransaction="false">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="POS_Operation"/>
+        </preConditions>
+        <loadData encoding="UTF-8" file="data/POS_Operation_fill.csv" tableName="POS_Operation" separator=";">
+            <column name="ClientID" type="NUMERIC" />
+            <column name="AgreementID" type="NUMERIC" />
+            <column name="PortfolioID" type="NUMERIC" />
+            <column name="MarketID" type="NUMERIC" />
+            <column name="TenderMode" type="STRING" />
+            <column name="TKS" type="STRING" />
+            <column name="OperationStatus" type="NUMERIC" />
+            <column name="SourceSystem" type="STRING" />
+            <column name="Number" type="STRING" />
+            <column name="OperationDate" type="TIMESTAMP" />
+            <column name="OperationType" type="STRING" />
+            <column name="Direction" type="NUMERIC" />
+            <column name="ISIN" type="STRING" />
+            <column name="ISONumber" type="STRING" />
+            <column name="Amount" type="NUMERIC" />
+            <column name="Quantity" type="NUMERIC" />
+            <column name="isDeleted" type="BOOLEAN" />
+        </loadData>
+    </changeSet>
+   </databaseChangeLog>

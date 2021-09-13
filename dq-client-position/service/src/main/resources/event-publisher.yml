@@ -1,0 +1,69 @@
+asyncapi: 2.0.0
+info:
+  title: DQ Client Position application
+  version: '1.0.0'
+channels:
+  #Формат: Одно событие - несколько записей изменений позиции
+  sendChangePosition:
+    publish:
+      message:
+        $ref: '#/components/messages/sendChangePositionDto'
+components:
+  messages:
+    sendChangePositionDto:
+      payload:
+        $ref: '#/components/schemas/sendChangePositionDto'
+  schemas:
+    sendChangePositionDto:
+      type: object
+      properties:
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/positionDto'
+    positionDto:
+      type: object
+      properties:
+        positionDateTime:
+          type: string
+          format: date-time
+        positionDateKind:
+          type: integer
+          format: int32
+        agreementID:
+          type: integer
+          format: int64
+        market:
+          type: integer
+          format: int32
+        tradePlace:
+          type: integer
+          format: int32
+        brokAccount:
+          type: string
+        tradePortfolio:
+          type: string
+        depoSubAccount :
+          type: string
+        clientCode:
+          type: string
+        positionType:
+          type: integer
+          format: int32
+        assetType:
+          type: integer
+          format: int32
+        asset:
+          type: string
+        incomeRest:
+          type: number
+          format: bigdecimal
+        income:
+          type: number
+          format: bigdecimal
+        expense:
+          type: number
+          format: bigdecimal
+        outRest:
+          type: number
+          format: bigdecimal

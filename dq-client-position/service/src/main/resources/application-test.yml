@@ -1,0 +1,43 @@
+server:
+  port: 0
+
+security: 
+  enabled: false
+  oauth2: 
+    client: 
+      clientId:
+      clientSecret: 
+      scope:
+      accessTokenUri:
+      userAuthorizationUri:
+    resource: 
+      jwt: 
+        key-uri:
+
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    username: sa
+    password:     
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      naming: 
+        physical-strategy: ru.diasoft.micro.lib.config.H2PhysicalNamingStrategy
+  liquibase:
+    change-log: classpath*:rootChangeLog.xml
+# Generate Events Publisher or Subsriber   
+  kafka:
+    bootstrap-servers: localhost:9094    
+
+dstrace:
+  enabled: false
+
+logging:
+  level:
+    ru.diasoft: DEBUG
+
+app:
+  cron: "0 15 12 * * *"
+

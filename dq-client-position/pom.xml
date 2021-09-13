@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>ru.diasoft.micro</groupId>
+    <artifactId>archetype-parent</artifactId>
+    <version>1.23.01-21061801</version>
+  </parent>
+  <groupId>ru.diasoft.micro</groupId>
+  <artifactId>dqclntpos-parent</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+  <name>Parent for dqclntpos</name>
+  <url>http://www.diasoft.com</url>
+  <modules>
+    <module>database</module>
+    <module>service</module>
+    <module>bundle</module>
+  </modules>
+  <distributionManagement>
+    <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>diasoft_repo</id>
+      <url>http://maven:8080/maven2/repo/</url>
+    </repository>
+  </distributionManagement>
+  <properties>
+    <archetype-bom.version>1.23.01-21061801</archetype-bom.version>
+  </properties>
+</project>

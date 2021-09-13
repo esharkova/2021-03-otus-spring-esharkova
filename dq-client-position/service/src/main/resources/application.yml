@@ -1,0 +1,168 @@
+server:
+  port: ${SERVICE_PORT}
+  servlet:
+    context-path: /${SERVICE_NAME:dqclntpos}
+
+security:
+  enabled: ${SECURITY_ENABLED:true}
+  oauth2:
+    client:
+      clientId: ${OAUTH2_CLIENT_ID}
+      clientSecret: ${OAUTH2_CLIENT_SECRET}
+      scope: openid
+      accessTokenUri: ${AUTH_SERVER_URL}/${AUTH_SERVER_CONTEXT}/oauth/token
+      userAuthorizationUri: ${AUTH_SERVER_URL}/${AUTH_SERVER_CONTEXT}/oauth/authorize
+    resource:
+      jwt:
+        key-uri: ${AUTH_SERVER_URL}/${AUTH_SERVER_CONTEXT}/oauth/token_key
+
+spring:
+  cache:
+    type: SIMPLE
+  datasource:
+    driverClassName: ${DB_DRIVER}
+    url: ${DB_URL}
+    username: ${DB_LOGIN}
+    password: ${DB_PASSWORD}
+    hikari:
+      connection-test-query: ${DB_TEST_QUERY:}
+      maximumPoolSize: ${HIKARI_MAXIMUM_POOLSIZE:10}
+      minimumIdle: ${HIKARI_MINIMUM_IDLE:10}
+      idleTimeout: ${HIKARI_IDLE_TIMEOUT:600000}
+      connectionTimeout: ${HIKARI_CONNECTION_TIMEOUT:30000}
+      maxLifetime: ${HIKARI_MAX_LIFETIME:1800000}
+  jpa:
+    database-platform: ${JPA_DIALECT}
+    show-sql: ${SHOW_SQL:true}
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        globally_quoted_identifiers: ${DB_QUOTED_IDENTIFIERS:false}
+        jdbc:
+          time_zone: UTC
+          lob:
+            non_contextual_creation: true
+
+  # Generate Events Publisher or Subscribe
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST}:${KAFKA_PORT}
+    properties:
+      #Server host name verification is disabled by setting ssl.endpoint.identification.algorithm to an empty string
+      ssl.endpoint.identification.algorithm:
+      security.protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
+    ssl:
+      trust-store-location: ${KAFKA_TRUSTSTORE_LOCATION:}
+      trust-store-password: ${KAFKA_TRUSTSTORE_PASSWORD:}
+      key-store-location: ${KAFKA_KEYSTORE_LOCATION:}
+      key-store-password: ${KAFKA_KEYSTORE_PASSWORD:}
+      key-password: ${KAFKA_KEY_PASSWORD:}
+    consumer:
+      max-poll-records: ${KAFKA_MAX_POLL_RECORDS:500}
+      max-poll-interval-ms: ${KAFKA_MAX_POLL_INTERVAL_MS:300000}
+  cloud:
+    stream:
+      binders:
+        binderName:
+          type: kafka
+      bindings:
+        receivePosOperationSubscribe:
+          destination: ${RECEIVE_POS_OPERATION:dq-clntpos-receive-pos-operation}
+          group: DQCLNTPOS
+        receiveInstitutionInsertSubscribe:
+          destination: ${RECEIVE_INSTITUTION_INSERT:OnAfterInstitution_Insert}
+          group: DQCLNTPOS
+        receiveInstitutionUpdateSubscribe:
+          destination: ${RECEIVE_INSTITUTION_UPDATE:OnAfterInstitution_Update}
+          group: DQCLNTPOS
+        receiveInstitutionDeleteSubscribe:
+          destination: ${RECEIVE_INSTITUTION_DELETE:OnAfterInstitution_Delete}
+          group: DQCLNTPOS
+        receiveLegalInsertSubscribe:
+          destination: ${RECEIVE_LEGAL_INSERT:OnAfterLegal_Insert}
+          group: DQCLNTPOS
+        receiveLegalUpdateSubscribe:
+          destination: ${RECEIVE_LEGAL_UPDATE:OnAfterLegal_Update}
+          group: DQCLNTPOS
+        receiveLegalDeleteSubscribe:
+          destination: ${RECEIVE_LEGAL_DELETE:OnAfterLegal_Delete}
+          group: DQCLNTPOS
+        receivePersonInsertSubscribe:
+          destination: ${RECEIVE_PERSON_INSERT:OnAfterPerson_Insert}
+          group: DQCLNTPOS
+        receivePersonUpdateSubscribe:
+          destination: ${RECEIVE_PERSON_UPDATE:OnAfterPerson_Update}
+          group: DQCLNTPOS
+        receivePersonDeleteSubscribe:
+          destination: ${RECEIVE_PERSON_DELETE:OnAfterPerson_Delete}
+          group: DQCLNTPOS
+        sendChangePositionPublish:
+          destination: ${DQCLNTPOS_SEND_POSITION:dq-clntpos-position-event}
+          group: DQCLNTPOS
+  jmx:
+    enabled: true #для мониторинга подписчиков кафки
+  messages:
+    basename: i18n.messages
+
+dstrace:
+  enabled: ${TRACER_ENABLE:true}
+  mode: ${TRACE_MODE:develop}
+  collector:
+    type: http
+    address: ${TRACER_HOST:localhost}:${TRACER_PORT:9411}
+
+dslogging:
+  nesting-level-limit: ${LOGGING_NESTING_LEVEL_LIMIT:2}
+  items-on-level-limit: ${LOGGING_ITEMS_ON_LEVEL_LIMIT:100}
+  exclude-items: ${LOGGING_EXCLUDE_ITEMS:}
+  include-items: ${LOGGING_INCLUDE_ITEMS:}
+
+logging:
+  config: classpath:log4j2.xml
+  level:
+    ROOT: ${LOGGING_ROOT_LEVEL:INFO}
+    ru.diasoft.micro: ${LOGGING_LEVEL:DEBUG}
+    org.hibernate.type: ${LOGGING_HIBERNATE_LEVEL:INFO} #To log values set TRACE
+    io.swagger.models.parameters.AbstractSerializableParameter: ERROR
+
+chaos:
+  monkey:
+    enabled: ${CHAOS_MONKEY_ENABLED:false}
+    watcher:
+      component: ${CM_WATCHER_COMPONENT_ENABLED:false}
+      controller: ${CM_WATCHER_CONTROLLER_ENABLED:false}
+      repository: ${CM_WATCHER_REPOSITORY_ENABLED:false}
+      rest-controller: ${CM_WATCHER_REST_CONTROLLER_ENABLED:true}
+      service: ${CM_WATCHER_SERVICE_ENABLED:true}
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: ${FEIGN_CLIENT_CONNECT_TIMEOUT:300000}
+        readTimeout: ${FEIGN_CLIENT_READ_TIMEOUT:300000}
+
+rest-template:
+  config:
+    connectTimeout: ${REST_TEMPLATE_CONNECT_TIMEOUT:300000}
+    readTimeout: ${REST_TEMPLATE_READ_TIMEOUT:300000}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        #exclude: env,beans
+  metrics:
+    kafka:
+      consumer:
+        enabled: true
+    export:
+      atlas:
+        enabled: false
+
+app:
+  cron: "0 15 12 * * *"

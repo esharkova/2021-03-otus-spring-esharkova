@@ -1,0 +1,153 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /${SERVICE_NAME:dqclntpos}
+
+security:
+  enabled: ${SECURITY_ENABLED:false}
+  oauth2:
+    client:
+      clientId:
+      clientSecret:
+      scope:
+      accessTokenUri:
+      userAuthorizationUri:
+    resource:
+      jwt:
+        key-uri:
+
+spring:
+  # Postgres
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://fmfapsql.diasoft.ru:5432/dqclntpos
+    #url: jdbc:postgresql://devops-pg:5432/dqclientprtf
+    username: postgres
+    password: postgres
+    #password: 123456
+    hikari:
+      connection-test-query:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true # Для PostgreSQL установить в true, для MSSQL, Oracle в false
+        jdbc:
+          time_zone: UTC
+          lob:
+            non_contextual_creation: true
+
+  # Generate Events Publisher or Subsriber
+  kafka:
+    bootstrap-servers: fmfaqsr.diasoft.ru:9092
+    #bootstrap-servers: localhost:9092
+  cloud:
+    stream:
+      binders:
+        binderName:
+          type: kafka
+      bindings:
+        receivePosOperationSubscribe:
+          destination: ${RECEIVE_POS_OPERATION:dq-clntpos-receive-pos-operation}
+          group: DQCLNTPOS
+        receiveInstitutionInsertSubscribe:
+          destination: ${RECEIVE_INSTITUTION_INSERT:OnAfterInstitution_Insert}
+          group: DQCLNTPOS
+        receiveInstitutionUpdateSubscribe:
+          destination: ${RECEIVE_INSTITUTION_UPDATE:OnAfterInstitution_Update}
+          group: DQCLNTPOS
+        receiveInstitutionDeleteSubscribe:
+          destination: ${RECEIVE_INSTITUTION_DELETE:OnAfterInstitution_Delete}
+          group: DQCLNTPOS
+        receiveLegalInsertSubscribe:
+          destination: ${RECEIVE_LEGAL_INSERT:OnAfterLegal_Insert}
+          group: DQCLNTPOS
+        receiveLegalUpdateSubscribe:
+          destination: ${RECEIVE_LEGAL_UPDATE:OnAfterLegal_Update}
+          group: DQCLNTPOS
+        receiveLegalDeleteSubscribe:
+          destination: ${RECEIVE_LEGAL_DELETE:OnAfterLegal_Delete}
+          group: DQCLNTPOS
+        receivePersonInsertSubscribe:
+          destination: ${RECEIVE_PERSON_INSERT:OnAfterPerson_Insert}
+          group: DQCLNTPOS
+        receivePersonUpdateSubscribe:
+          destination: ${RECEIVE_PERSON_UPDATE:OnAfterPerson_Update}
+          group: DQCLNTPOS
+        receivePersonDeleteSubscribe:
+          destination: ${RECEIVE_PERSON_DELETE:OnAfterPerson_Delete}
+          group: DQCLNTPOS
+        sendChangePositionPublish:
+          destination: ${DQCLNTPOS_SEND_POSITION:dq-clntpos-position-event}
+          group: DQCLNTPOS
+  messages:
+    basename: i18n.messages
+
+dstrace:
+  enabled: ${TRACER_ENABLE:false}
+  mode: ${TRACE_MODE:develop}
+  collector:
+    type: http
+    address: ${TRACER_HOST:localhost}:${TRACER_PORT:9411}
+
+ddslogging:
+  nesting-level-limit: ${LOGGING_NESTING_LEVEL_LIMIT:2}
+  items-on-level-limit: ${LOGGING_ITEMS_ON_LEVEL_LIMIT:100}
+  exclude-items: ${LOGGING_EXCLUDE_ITEMS:}
+  include-items: ${LOGGING_INCLUDE_ITEMS:}
+
+logging:
+  config: classpath:log4j2.xml
+  level:
+    ROOT: ${LOGGING_ROOT_LEVEL:INFO}
+    ru.diasoft.micro: ${LOGGING_LEVEL:DEBUG}
+    org.hibernate.type: ${LOGGING_HIBERNATE_LEVEL:ERROR} #To log values set TRACE
+    kafka: ERROR
+    org.apache.kafka: ERROR
+    io.swagger.models.parameters.AbstractSerializableParameter: ERROR
+    org.springframework.cache: DEBUG
+
+chaos:
+  monkey:
+    enabled: false
+    watcher:
+      component: false
+      controller: false
+      repository: false
+      rest-controller: true
+      service: true
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 300000
+        readTimeout: 300000
+
+rest-template:
+  config:
+    connectTimeout: 300000
+    readTimeout: 300000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        #exclude: env,beans
+  metrics:
+    kafka:
+      consumer:
+        enabled: true
+    export:
+      atlas:
+        enabled: false
+
+app:
+  cron: "0 15 12 * * *"

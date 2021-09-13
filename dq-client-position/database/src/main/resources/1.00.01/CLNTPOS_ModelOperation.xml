@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="autoIncrement" value="false" dbms="postgresql,mssql,oracle"/>
+    <property name="autoIncrement" value="true" dbms="h2"/>
+
+    <!-- Put your changesets here -->
+    <changeSet id="CLNTPOS_ModelOperations_Create" author="esharkova">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="CLNTPOS_ModelOperations"/>
+            </not>
+        </preConditions>
+
+        <createSequence sequenceName="clntpos_model_operation_seq_id" incrementBy="1" startValue="1"/>
+
+        <createTable tableName="CLNTPOS_ModelOperations">
+            <column name="OperationID" type="NUMERIC(15,0)" autoIncrement="${autoIncrement}" defaultValueSequenceNext="clntpos_model_operation_seq_id"
+                    remarks="Идентификатор операции">
+            </column>
+            <column name="CounterpartCode" type="VARCHAR(50)" remarks="Код контрагента">
+            </column>
+            <column name="ClientCode" type="VARCHAR(50)" remarks="Внешний номер клиента">
+            </column>
+            <column name="Direction" type="INTEGER" remarks="Направление операции">
+            </column>
+            <column name="SecurityCode" type="VARCHAR(20)" remarks="Код ISIN ценной бумаги">
+            </column>
+            <column name="ISONumber" type="VARCHAR(10)" remarks="Цифровой код валюты">
+            </column>
+            <column name="Quantity" type="NUMERIC(28,10)" remarks="Сумма">
+            </column>
+            <column name="Amount" type="NUMERIC(28,10)" remarks="Количество">
+            </column>
+            <column name="Price" type="NUMERIC(28,10)" remarks="Сумма">
+            </column>
+            <column name="OperationNumber" type="VARCHAR(25)" remarks="Номер операции">
+            </column>
+            <column name="OperationDate" type="TIMESTAMP" remarks="Дата и время операции">
+            </column>
+        </createTable>
+        <createIndex tableName="CLNTPOS_ModelOperations" indexName="K01_CLNTPOS_ModelOperations" unique="true">
+            <column name="OperationID"/>
+        </createIndex>
+        <comment>Create of CLNTPOS_ModelOperations table</comment>
+    </changeSet>
+</databaseChangeLog>
