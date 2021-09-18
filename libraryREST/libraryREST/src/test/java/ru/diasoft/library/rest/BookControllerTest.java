@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.diasoft.library.models.Author;
 import ru.diasoft.library.models.Book;
@@ -26,6 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@WithMockUser(
+        username = "admin",
+        authorities = {"ROLE_ADMIN"}
+)
 class BookControllerTest {
 
     public static final long AUTHOR_ID1 = 1L;
@@ -64,6 +69,8 @@ class BookControllerTest {
 
     @Autowired
     private ObjectMapper mapper;
+
+
 
     Author author1, author2;
     Set<Author> authors1 = new HashSet<>();
