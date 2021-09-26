@@ -1,0 +1,233 @@
+{
+	"info": {
+		"_postman_id": "09438e4d-fa67-4223-a67f-c5eaefff56cb",
+		"name": "v1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "dq-clntposs",
+			"item": [
+				{
+					"name": "DQSLICEPOSITION",
+					"item": [
+						{
+							"name": "dq-slice",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successful POST request\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"pm.test(\"Test data type of the response\", () => {\r",
+											"  pm.expect(jsonData).to.be.an(\"object\");\r",
+											"  pm.expect(jsonData.sliceTypeId).to.be.a(\"number\");\r",
+											"  });\r",
+											"\r",
+											"try {\r",
+											"    // сохраняем sliceTypeId из json ответа в переменную окружения\r",
+											"    pm.environment.set(\"sliceTypeId\", pm.response.json().sliceTypeId);\r",
+											"} catch(e) {\r",
+											"    // выводим исключение в консоль\r",
+											"    console.log(e);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[ \r\n    \r\n         {\r\n         \"valueName\": \"positionDateKind\",\r\n         \"value\": \"==(1)\"        \r\n        }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{host}}/dqclntpos/dqclntpos/v1/dq-slice?sliceName=testSlice1&type=2&userId=11118",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"dqclntpos",
+										"dqclntpos",
+										"v1",
+										"dq-slice"
+									],
+									"query": [
+										{
+											"key": "sliceName",
+											"value": "testSlice1"
+										},
+										{
+											"key": "type",
+											"value": "2"
+										},
+										{
+											"key": "userId",
+											"value": "11118"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getDqslicess",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{host}}/dqclntpos/dqclntpos/v1/dq-slicess?userId=11118",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"dqclntpos",
+										"dqclntpos",
+										"v1",
+										"dq-slicess"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "11118"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateDqslice",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://{{host}}/dqclntpos/dqclntpos/v1/dq-slice?sliceName=testSlice1&priority=5&sliceTypeId={{sliceTypeId}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"dqclntpos",
+										"dqclntpos",
+										"v1",
+										"dq-slice"
+									],
+									"query": [
+										{
+											"key": "sliceName",
+											"value": "testSlice1"
+										},
+										{
+											"key": "priority",
+											"value": "5"
+										},
+										{
+											"key": "sliceTypeId",
+											"value": "{{sliceTypeId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteDqslice",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{host}}/dqclntpos/dqclntpos/v1/dq-slice?sliceTypeId={{sliceTypeId}}",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"dqclntpos",
+										"dqclntpos",
+										"v1",
+										"dq-slice"
+									],
+									"query": [
+										{
+											"key": "sliceTypeId",
+											"value": "{{sliceTypeId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

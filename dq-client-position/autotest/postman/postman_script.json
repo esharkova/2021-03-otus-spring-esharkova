@@ -1,0 +1,451 @@
+{
+	"info": {
+		"_postman_id": "b3e875e0-1e2f-4115-9059-0cecc6fef8c0",
+		"name": "template_autotest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b8695bed-3b0a-41e8-8b54-ba95e56d0360",
+						"exec": [
+							"pm.test(\"Successful request\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"pm.test(\"Check testKey\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.testKey).to.eql('testKey');",
+							"});",
+							"",
+							"pm.test(\"Check testInt\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.testInt).to.eql(1);",
+							"});",
+							"",
+							"pm.test(\"Check testBalance\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.testBalance).to.eql(20.81);",
+							"});",
+							"",
+							"pm.test(\"Check testDate\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.testDate).to.eql('2019-01-01');",
+							"});",
+							"",
+							"if(pm.response.code == 200) {",
+							"    var jsonData = pm.response.json();",
+							"    pm.globals.set(\"ID\", jsonData.id);",
+							"    pm.globals.set(\"testKey\", \"testKey\" + jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4fe442b4-8d92-4e1a-8c97-957367e4b80d",
+						"exec": [
+							"const authorization = {",
+							"    url: 'http://autotest-microtemplate-dev-authserver.ftokd.diasoft.ru/uaa/oauth/token?grant_type=password&username=dsa&password=12345678&scope=openid',",
+							"    method: 'POST',",
+							"    header: {",
+							"        'Authorization': 'Basic Y2xpZW50OnNlY3JldA=='",
+							"    }",
+							"};",
+							"",
+							"pm.sendRequest(authorization, function (err, response) {",
+							"    pm.globals.set(\"access_token\", response.json().access_token);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"testKey\": \"testKey\",\r\n    \"testInt\": 1,\r\n    \"testBalance\": 20.81,\r\n    \"testDate\": \"2019-01-01\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://autotest-microtemplate-dev-template.ftokd.diasoft.ru/v1/template",
+					"protocol": "http",
+					"host": [
+						"autotest-microtemplate-dev-template",
+						"ftokd",
+						"diasoft",
+						"ru"
+					],
+					"path": [
+						"v1",
+						"template"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b858e476-2039-4165-9d4a-1f1376fd970d",
+						"exec": [
+							"pm.test(\"Successful request\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"pm.test(\"Check testKey\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.testKey).to.eql(pm.globals.get(\"testKey\"));",
+							"});",
+							"",
+							"pm.test(\"Check testInt\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.testInt).to.eql(2);",
+							"});",
+							"",
+							"pm.test(\"Check testBalance\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.testBalance).to.eql(20.01);",
+							"});",
+							"",
+							"pm.test(\"Check testDate\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.testDate).to.eql('2019-01-02');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"testKey\": \"{{testKey}}\",\r\n    \"testInt\": 2,\r\n    \"testBalance\": 20.01,\r\n    \"testDate\": \"2019-01-02\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://autotest-microtemplate-dev-template.ftokd.diasoft.ru/v1/template/{{ID}}",
+					"protocol": "http",
+					"host": [
+						"autotest-microtemplate-dev-template",
+						"ftokd",
+						"diasoft",
+						"ru"
+					],
+					"path": [
+						"v1",
+						"template",
+						"{{ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "select1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "00c63e31-6f61-4495-b60c-d57cce51b2cd",
+						"exec": [
+							"pm.test(\"Successful request\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"pm.test(\"Check content[0].testKey\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[0].testKey).to.eql('0002');",
+							"});",
+							"",
+							"pm.test(\"Check content[0].testInt\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[0].testInt).to.eql(101);",
+							"});",
+							"",
+							"pm.test(\"Check content[0].testBalance\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[0].testBalance).to.eql(20.01);",
+							"});",
+							"",
+							"pm.test(\"Check content[0].testDate\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[0].testDate).to.eql('2019-01-02');",
+							"});",
+							"",
+							"pm.test(\"Check content[1].testKey\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[1].testKey).to.eql('0003');",
+							"});",
+							"",
+							"pm.test(\"Check content[1].testInt\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[1].testInt).to.eql(102);",
+							"});",
+							"",
+							"pm.test(\"Check content[1].testBalance\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[1].testBalance).to.eql(30.01);",
+							"});",
+							"",
+							"pm.test(\"Check content[1].testDate\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[1].testDate).to.eql('2019-01-03');",
+							"});",
+							"",
+							"pm.test(\"Check pageable.pageNumber\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.pageable.pageNumber).to.eql(0);",
+							"});",
+							"",
+							"pm.test(\"Check pageable.pageSize\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.pageable.pageSize).to.eql(20);",
+							"});",
+							"",
+							"pm.test(\"Check totalElements\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.totalElements).to.eql(2);",
+							"});",
+							"",
+							"pm.test(\"Check totalPages\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.totalPages).to.eql(1);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://autotest-microtemplate-dev-template.ftokd.diasoft.ru/v1/template?sort=id,asc&testKey=contains(000)&testInt=not(103)&testInt=and(gt(100))",
+					"protocol": "http",
+					"host": [
+						"autotest-microtemplate-dev-template",
+						"ftokd",
+						"diasoft",
+						"ru"
+					],
+					"path": [
+						"v1",
+						"templates"
+					],
+					"query": [
+						{
+							"key": "sort",
+							"value": "id,asc"
+						},
+						{
+							"key": "testKey",
+							"value": "contains(000)"
+						},
+						{
+							"key": "testInt",
+							"value": "not(103)"
+						},
+						{
+							"key": "testInt",
+							"value": "and(gt(100))"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "select2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1b005d7d-b621-4ee7-800b-8721817b07e6",
+						"exec": [
+							"pm.test(\"Successful request\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"pm.test(\"Check content[0].testKey\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[0].testKey).to.eql('0001');",
+							"});",
+							"",
+							"pm.test(\"Check content[0].testInt\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[0].testInt).to.eql(100);",
+							"});",
+							"",
+							"pm.test(\"Check content[0].testBalance\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[0].testBalance).to.eql(10.01);",
+							"});",
+							"",
+							"pm.test(\"Check content[0].testDate\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[0].testDate).to.eql('2019-01-01');",
+							"});",
+							"",
+							"pm.test(\"Check content[1].testKey\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[1].testKey).to.eql('0002');",
+							"});",
+							"",
+							"pm.test(\"Check content[1].testInt\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[1].testInt).to.eql(101);",
+							"});",
+							"",
+							"pm.test(\"Check content[1].testBalance\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[1].testBalance).to.eql(20.01);",
+							"});",
+							"",
+							"pm.test(\"Check content[1].testDate\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.content[1].testDate).to.eql('2019-01-02');",
+							"});",
+							"",
+							"pm.test(\"Check pageable.pageNumber\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.pageable.pageNumber).to.eql(0);",
+							"});",
+							"",
+							"pm.test(\"Check pageable.pageSize\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.pageable.pageSize).to.eql(2);",
+							"});",
+							"",
+							"pm.test(\"Check totalElements\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.totalElements).to.eql(4);",
+							"});",
+							"",
+							"pm.test(\"Check totalPages\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.totalPages).to.eql(2);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://autotest-microtemplate-dev-template.ftokd.diasoft.ru/v1/template?sort=id,asc&size=2&page=1&testKey=contains(000)",
+					"protocol": "http",
+					"host": [
+						"autotest-microtemplate-dev-template",
+						"ftokd",
+						"diasoft",
+						"ru"
+					],
+					"path": [
+						"v1",
+						"templates"
+					],
+					"query": [
+						{
+							"key": "sort",
+							"value": "id,asc"
+						},
+						{
+							"key": "size",
+							"value": "2"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "testKey",
+							"value": "contains(000)"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

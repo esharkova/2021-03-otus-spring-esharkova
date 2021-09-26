@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <sysname>dqclntpos</sysname>
+    <name>dqclntpos</name>
+    <description>dqclntpos</description>
+    <project>dqclntpos</project>
+    <msa>true</msa>
+    <config></config>
+</module>

@@ -1,0 +1,148 @@
+asyncapi: 2.0.0
+info:
+  title: DQ Client Position application
+  version: '1.0.0'
+channels:
+  #Формат: Одно событие - несколько записей изменений позиции
+  sendChangePosition:
+    publish:
+      message:
+        $ref: '#/components/messages/sendChangePositionDto'
+  sendLimit:
+    publish:
+      message:
+        $ref: '#/components/messages/sendLimitDto'
+components:
+  messages:
+    sendChangePositionDto:
+      payload:
+        $ref: '#/components/schemas/sendChangePositionDto'
+    sendLimitDto:
+      payload:
+        $ref: '#/components/schemas/sendLimitDto'
+  schemas:
+    sendChangePositionDto:
+      type: object
+      properties:
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/positionDto'
+    positionDto:
+      type: object
+      properties:
+        positionDateTime:
+          type: string
+          format: date-time
+        positionDateKind:
+          type: integer
+          format: int32
+        agreementID:
+          type: integer
+          format: int64
+        market:
+          type: integer
+          format: int32
+        tradePlace:
+          type: integer
+          format: int32
+        brokAccount:
+          type: string
+        tradePortfolio:
+          type: string
+        depoSubAccount :
+          type: string
+        clientCode:
+          type: string
+        positionType:
+          type: integer
+          format: int32
+        assetType:
+          type: integer
+          format: int32
+        asset:
+          type: string
+        incomeRest:
+          type: number
+          format: bigdecimal
+        income:
+          type: number
+          format: bigdecimal
+        expense:
+          type: number
+          format: bigdecimal
+        outRest:
+          type: number
+          format: bigdecimal
+
+    sendLimitDto:
+      type: object
+      properties:
+        objectPosType:
+          type: integer
+          format: int32
+        objectPosId:
+          type: integer
+          format: int64
+        objectPosNumber:
+          type: string
+        requestType:
+          type: integer
+          format: int32
+        clientCode:
+          type: string
+        singleAccFlag:
+          type: integer
+          format: int32
+        futureVolume:
+          type: string
+        markets:
+          type: array
+          items:
+            $ref: '#/components/schemas/marketsDto'
+        moneyLimits:
+          type: array
+          items:
+            $ref: '#/components/schemas/moneyLimitsDto'
+        securitiesLimits:
+          type: array
+          items:
+            $ref: '#/components/schemas/securitiesLimitsDto'
+
+    marketsDto:
+      type: object
+      properties:
+        market:
+          type: string
+        trdAccCode:
+          type: string
+
+    moneyLimitsDto:
+      type: object
+      properties:
+        limitKind:
+          type: integer
+          format: int32
+        currencyCode:
+          type: string
+        qtyAmount:
+          type: number
+          format: double
+        leverage:
+          type: integer
+          format: int32
+
+    securitiesLimitsDto:
+      type: object
+      properties:
+        limitKind:
+          type: integer
+          format: int32
+        secCode:
+          type: string
+        qtyAmount:
+          type: number
+          format: double
+        awgPositionPrice:
+          type: number
+          format: double

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <property name="autoIncrement" value="false" dbms="postgresql"/>
+    <property name="autoIncrement" value="true" dbms="h2"/>
+
+    <changeSet author="ryanin" id="Clntpos_Currency_Fill" runInTransaction="false">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="clntpos_currency"/>
+        </preConditions>
+        <loadData encoding="UTF-8" file="data/Clntpos_Currency_fill.csv" tableName="clntpos_currency" separator=";">
+            <column name="currencyid" type="NUMERIC" />
+            <column name="isonumber" type="STRING" />
+            <column name="currencybrief" type="STRING" />
+            <column name="currencyname" type="STRING" />
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

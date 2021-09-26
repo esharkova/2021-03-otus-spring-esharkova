@@ -1,0 +1,18 @@
+HashMap<String, Object> pipelineParameters = new HashMap<>()
+
+//Указание проекта DevOps 
+pipelineParameters.put("devops_project_1", "dqclientprtf")
+
+//Указание параметров для различных веток
+if (BRANCH_NAME.startsWith("prj/")) { //Любая проектная ветка
+    pipelineParameters.put("devops_instance_1", "prj-dqclientprtf-")
+    pipelineParameters.put("devops_instance_autotest_1", "autotest-prj-")
+}
+if (BRANCH_NAME.equals("master")) {
+    pipelineParameters.put("devops_instance_1", "dqclientprtf-")
+    pipelineParameters.put("devops_instance_autotest_1", "dqclientprtf-")
+    pipelineParameters.put("autotest_postman_branch_1", "master")
+    pipelineParameters.put("autotest_postman_collection_1", "autotest/postman/dqclntpos.postman_collection.json")
+    pipelineParameters.put("autotest_postman_environment_1", "autotest/postman/clpos.postman_environment.json")
+} 
+dsMsaPipeline(pipelineParameters)
