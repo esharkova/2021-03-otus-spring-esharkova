@@ -12,3 +12,6 @@ DROP TABLE IF EXISTS book_author;
 CREATE TABLE book_author(book_id BIGINT references book(id) on delete cascade, author_id BIGINT references author(id), primary key (book_id, author_id));
 DROP TABLE IF EXISTS book_genre;
 CREATE TABLE book_genre(book_id BIGINT references book(id) on delete cascade, genre_id BIGINT references genre(id),primary key (book_id, genre_id));
+
+DROP TABLE IF EXISTS users;
+CREATE TABLE users(id BIGINT IDENTITY PRIMARY KEY, login VARCHAR(255), password VARCHAR(255));
