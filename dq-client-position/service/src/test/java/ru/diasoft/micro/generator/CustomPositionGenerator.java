@@ -98,7 +98,6 @@ public class CustomPositionGenerator {
                         .positionDateKind(POSDATEKINDT0_VALUE)
                         .fixFlag(0)
                         .positionType(1)
-                        .agreementID(AgreementGenerator.AGREEMENT_ID)
                         .clientID(ClientGenerator.CLIENT_ID)
                         .assetID(CurrencyGenerator.CURRENCY_ID)
                         .assetType(ASSETTYPE_CUR) //1 - ДС
@@ -113,7 +112,6 @@ public class CustomPositionGenerator {
                         .positionDateKind(POSDATEKINDT0_VALUE)
                         .fixFlag(0)
                         .positionType(2)
-                        .agreementID(AgreementGenerator.AGREEMENT_ID)
                         .clientID(ClientGenerator.CLIENT_ID)
                         .assetID(SecurityGenerator.SECURITY_ID)
                         .assetType(ASSETTYPE_SEC) //2 - ЦБ

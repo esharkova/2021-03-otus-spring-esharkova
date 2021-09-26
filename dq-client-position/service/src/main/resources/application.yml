@@ -102,6 +102,15 @@ spring:
         sendChangePositionPublish:
           destination: ${DQCLNTPOS_SEND_POSITION:dq-clntpos-position-event}
           group: DQCLNTPOS
+        receiveBrokerAgreementInsertSubscribe:
+          destination: ${RECEIVE_PERSON_DELETE:OnAfterSOrd_MassProcess}
+          group: DQCLNTPOS
+        receiveDailyLimitsSubscribe:
+          destination: ${RECEIVE_DAILY_LIMITS:dailyLimits}
+          group: DQCLNTPOS
+        sendLimitPublish:
+          destination: ${DQCLNTPOS_SEND_LIMIT:qcap-quik-receive-clntpos-limits}
+          group: DQCLNTPOS
   jmx:
     enabled: true #для мониторинга подписчиков кафки
   messages:
@@ -138,13 +147,6 @@ chaos:
       rest-controller: ${CM_WATCHER_REST_CONTROLLER_ENABLED:true}
       service: ${CM_WATCHER_SERVICE_ENABLED:true}
 
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: ${FEIGN_CLIENT_CONNECT_TIMEOUT:300000}
-        readTimeout: ${FEIGN_CLIENT_READ_TIMEOUT:300000}
-
 rest-template:
   config:
     connectTimeout: ${REST_TEMPLATE_CONNECT_TIMEOUT:300000}
@@ -166,3 +168,23 @@ management:
 
 app:
   cron: "0 15 12 * * *"
+  position:
+    tradePortfolio: "tradePortfolio"
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: ${FEIGN_CLIENT_CONNECT_TIMEOUT:300000}
+        readTimeout: ${FEIGN_CLIENT_READ_TIMEOUT:300000}
+
+dmp:
+  securityProfileUrl: ${DMP_SECURITY_URL:http://qdmpsecurity.dqcl-dqcl.qrun.diasoft.ru/qdmpsecurity}
+  securityProfileGet: ${DMP_SECURITY_GET:/qdmpsecurity/securities}
+
+mdp:
+  tokenService:
+    enabled: ${USE_TOKEN_FOR_FEIGN:true}
+    username: ${TECH_USERNAME}
+    password: ${TECH_PASSWORD}
+    service: ${AUTH_SERVICE:mdpauth}

@@ -53,7 +53,7 @@ public interface CustomPositionRepository extends
             "    select ?2, " +
             "           ?3, " +
             "           pos.positionDateKind, " +
-            "           ag.agreementCode," +
+            "           ag.brAgrNumber," +
             "           CASE" +
             "             WHEN pos.assetType  = 1 THEN cur.currencyBrief" +
             "             WHEN pos.assetType  = 2 THEN sec.securityName" +
@@ -82,34 +82,32 @@ public interface CustomPositionRepository extends
             "           pos.outRest," +
             "           pos.income," +
             "           pos.expense," +
-            "           ag.moneyOvernight," +
-            "           ag.securityOvernight," +
-            "           ag.marginLending," +
+            "           ba.moneyOvernight," +
+            "           ba.securityOvernight," +
+            "           ba.marginLending," +
             "           ag.clientName," +
             "           CASE" +
-            "             WHEN pos.assetType  = 2 THEN ag.tradingAccBrief" +
+            "             WHEN pos.assetType  = 2 THEN ba.tradingAccount" +
             "             ELSE ''" +
             "           END," +
             "           ps.tradePortfolio," +
             "           CASE" +
-            "             WHEN pos.depoAccType  = 1 THEN CONCAT(pos.custody, ' (основ)')" +
-            "             ELSE CONCAT(pos.custody, ' (торг)') " +
+            "             WHEN pos.depoAccType  = 1 THEN CONCAT(ps.clearingPlace, ' (основ)')" +
+            "             ELSE CONCAT(ps.clearingPlace, ' (торг)') " +
             "           END," +
             "           ps.brokAccount," +
-            "           COALESCE((select max(ps1.clientCode)" +
-            "                       from PortfolioStructure as ps1" +
-            "                      where ps1.brokAccount = ps.brokAccount" +
-            "                        and ps1.market = 2" +
-            "                        and ps1.tradePlace = '1'), '' ) as accountFut" +
+            "           ba.derivAccount" +
             "      from Position as pos" +
-            "    LEFT OUTER JOIN Agreement as ag" +
-            "     ON pos.agreementID = ag.agreementID" +
             "    LEFT OUTER JOIN Security as sec" +
             "     ON pos.assetID = sec.securityID" +
             "    LEFT OUTER JOIN Currency as cur" +
             "     ON pos.assetID = cur.currencyID" +
             "    LEFT OUTER JOIN PortfolioStructure as ps" +
             "     ON pos.portfolioStructureID = ps.portfolioStructureID" +
-            "     where pos.positionDateKind = ?1 and pos.fixFlag = 0")
+            "    LEFT OUTER JOIN Agreement as ag" +
+            "     ON ag.agreementID = ps.brokerAgreementID" +
+            "    LEFT OUTER JOIN BrokAccount as ba" +
+            "     ON ba.brokAccount = ps.brokAccount" +
+            "    where pos.positionDateKind = ?1 and pos.fixFlag = 0")
     void insertPositionIntoCustomPosition(Integer posDateKind, Long customID, ZonedDateTime currentDate);
 }

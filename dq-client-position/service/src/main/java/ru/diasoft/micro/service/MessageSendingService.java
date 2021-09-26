@@ -2,6 +2,7 @@ package ru.diasoft.micro.service;
 
 import org.springframework.messaging.MessageHeaders;
 import ru.diasoft.micro.model.SendChangePositionDto;
+import ru.diasoft.micro.model.SendLimitDto;
 
 /**
         * @author esharkova
@@ -15,4 +16,6 @@ public interface MessageSendingService {
      * @param sendChangePositionDto - изменения позиции
      */
     void sendChangePositionMessage(SendChangePositionDto sendChangePositionDto);
+
+    void sendLimitMessage(SendLimitDto sendLimitDto);
 }

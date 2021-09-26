@@ -24,6 +24,8 @@ public interface PositionService {
 
     void deletePosition(Position position) ;
 
+    List<Position> findByFixFlagAndPositionDateKind(Integer fixFlag, Integer positionDateKind);
+
     List<Position> findByFixFlagAndPositionDateKindNot(Integer fixFlag, Integer positionDateKind);
 
     List<Position> findByFixFlagAndPositionDateKindGreaterThan(Integer fixFlag, Integer positionDateKind);

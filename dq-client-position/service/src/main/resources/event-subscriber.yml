@@ -49,6 +49,14 @@ channels:
     subscribe:
       message:
         $ref: '#/components/messages/PersonDeleteDto'
+  receiveBrokerAgreementInsert:
+    subscribe:
+      message:
+        $ref: '#/components/messages/brokerAgreementDto'
+  receiveDailyLimits:
+    subscribe:
+      message:
+        $ref: '#/components/messages/dailyLimitsDto'
 components:
   messages:
     posOperationDto:
@@ -84,6 +92,12 @@ components:
     PersonDeleteDto:
       payload:
         $ref: '#/components/schemas/PersonDeleteDto'
+    brokerAgreementDto:
+      payload:
+        $ref: '#/components/schemas/brokerAgreementDto'
+    dailyLimitsDto:
+      payload:
+        $ref: '#/components/schemas/dailyLimitsDto'
   schemas:
     fixingDayDto:
       type: object
@@ -143,6 +157,8 @@ components:
             format: double
         depoSubAccount:
             type: string
+        brokAccount:
+          type: string
 
     InstitutionInsertDto:
       type: object
@@ -607,3 +623,153 @@ components:
         PersonID:
             type: integer
             format: int64
+
+    brokerAgreementDto:
+      type: object
+      properties:
+        pAPI_SOrd_AftMasProcess:
+          type: array
+          items:
+            $ref: '#/components/schemas/pAPI_SOrd_AftMasProcessDto'
+        pAPI_SOrd_AftMasPrDEPO:
+          type: array
+          items:
+            $ref: '#/components/schemas/pAPI_SOrd_AftMasPrDEPODto'
+        pAPI_SOrd_AftMasPrMDOLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/pAPI_SOrd_AftMasPrMDOLinksDto'
+        pAPI_SOrd_AftMasPrRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/pAPI_SOrd_AftMasPrRulesDto'
+        pAPI_SOrd_AftMasPrCodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/pAPI_SOrd_AftMasPrCodesDto'
+    pAPI_SOrd_AftMasProcessDto:
+      type: object
+      properties:
+        ServiceOrderID:
+          type: integer
+          format: int64
+        BrokerAgreementID:
+          type: integer
+          format: int64
+        BrAgrNumber:
+          type: string
+        ClientID:
+          type: integer
+          format: int64
+        ClientType:
+          type: integer
+          format: int32
+        ClientName:
+          type: string
+    pAPI_SOrd_AftMasPrDEPODto:
+      type: object
+      properties:
+        ServiceOrderID:
+          type: integer
+          format: int64
+        ObjectType:
+          type: integer
+          format: int32
+        LinkedDepoAccount:
+          type: string
+        SubAccountType:
+          type: string
+        Number:
+          type: string
+    pAPI_SOrd_AftMasPrMDOLinksDto:
+      type: object
+      properties:
+        ServiceOrderID:
+          type: integer
+          format: int64
+        SubAgreementID:
+          type: integer
+          format: int64
+        Market:
+          type: string
+        CodeType:
+          type: string
+        CodeValue:
+          type: string
+        AccountLinkType:
+          type: string
+        AccountNumber:
+          type: string
+    pAPI_SOrd_AftMasPrRulesDto:
+      type: object
+      properties:
+        ServiceOrderID:
+          type: integer
+          format: int64
+        CodeType:
+          type: string
+        CodeValue:
+          type: string
+        ClearingPlace:
+          type: string
+        DepoSubAccountType:
+          type: string
+        Portfolio:
+          type: string
+    pAPI_SOrd_AftMasPrCodesDto:
+      type: object
+      properties:
+        ServiceOrderID:
+          type: integer
+          format: int64
+        CodeType:
+          type: string
+        CodeValue:
+          type: string
+        MarginalityLevel:
+          type: integer
+          format: int32
+        OvernightMoney:
+          type: integer
+          format: int32
+        OvernightSecurity:
+          type: integer
+          format: int32
+        UCCMoEx:
+          type: string
+
+    dailyLimitsDto:
+      type: object
+      properties:
+        Event:
+          type: string
+        DateEvent:
+          type: string
+        ObjectPosType:
+          type: integer
+          format: int32
+        ObjectPosID:
+          type: integer
+          format: int64
+        ObjectPosNumber:
+          type: string
+        RequestType:
+          type: integer
+          format: int32
+        ClientCode:
+          type: string
+        SingleAccFlag:
+          type: integer
+          format: int32
+        Markets:
+          type: array
+          items:
+            $ref: '#/components/schemas/marketsDto'
+
+    marketsDto:
+      type: object
+      properties:
+        market:
+          type: string
+        trdAccCode:
+          type: string

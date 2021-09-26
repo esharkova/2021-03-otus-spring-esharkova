@@ -330,6 +330,16 @@
             <groupId>ru.diasoft.micro.mdp.lib</groupId>
             <artifactId>mdpcache</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ru.diasoft.micro.mdp.lib</groupId>
+            <artifactId>mdptechtoken</artifactId>
+            <version>9.04.04-21030201</version>
+        </dependency>
+        <!--dependency>
+            <groupId>ru.diasoft.micro.mdp.lib</groupId>
+            <artifactId>mdpfeign</artifactId>
+            <version>9.04.04-21030201</version>
+        </dependency-->
         <!--dependency>
             <groupId>ru.diasoft.micro.mdp.lib</groupId>
             <artifactId>mdpcache-hazelcast</artifactId>

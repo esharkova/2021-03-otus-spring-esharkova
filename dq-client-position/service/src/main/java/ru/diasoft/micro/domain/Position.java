@@ -35,9 +35,6 @@ public class Position {
     @Column(name = "clientid")
     private Long clientID;
 
-    @Column(name = "agreementid")
-    private Long agreementID;
-
     @Column(name = "portfoliostructureid")
     private Long portfolioStructureID;
 
@@ -74,9 +71,6 @@ public class Position {
     @Column(name = "assettype")
     private Integer assetType;
 
-    @Column(name = "tradePlace")
-    private Integer tradePlace;
-
     @Column(name = "custody")
     private String custody;
 
@@ -87,7 +81,6 @@ public class Position {
     public Position(Position previousPosition) {
         this.operationDate        = previousPosition.operationDate;
         this.clientID             = previousPosition.clientID;
-        this.agreementID          = previousPosition.agreementID;
         this.assetID              = previousPosition.assetID;
         this.positionDateKind     = previousPosition.positionDateKind;
         this.positionType         = previousPosition.positionType;
@@ -97,7 +90,6 @@ public class Position {
         this.positionDateTime     = previousPosition.positionDateTime;
         this.portfolioStructureID = previousPosition.portfolioStructureID;
         this.market               = previousPosition.market;
-        this.tradePlace           = previousPosition.tradePlace;
         this.assetType            = previousPosition.assetType;
         this.custody              = previousPosition.custody;
         this.depoAccType          = previousPosition.depoAccType;

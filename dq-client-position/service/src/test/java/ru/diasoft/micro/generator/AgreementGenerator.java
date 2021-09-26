@@ -1,6 +1,10 @@
 package ru.diasoft.micro.generator;
 
 import ru.diasoft.micro.domain.Agreement;
+import ru.diasoft.micro.model.BrokerAgreementDto;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class AgreementGenerator {
 
@@ -20,14 +24,15 @@ public class AgreementGenerator {
 
     public static final String TRADING_ACC2_VALUE = "tradingAcc2";
 
+    public static final String TRADING_ACC_BRIEF = "1_ТОРГ";
+    public static final String TRADING_SYSTEM_FR = "Мосбиржа ФР";
+    public static final Long SUB_AGREEMENT_ID = 1L;
+
     public static Agreement getAgreement(){
         return Agreement.builder()
                 .agreementID(AGREEMENT_ID)
                 .agreementCode(AGREEMENT_CODE)
                 .brAgrNumber(BR_AGR_NUMBER)
-                .brokAccFondNumber(BROK_ACC_FOND_NUMBER)
-                .brokAccFutNumber(BROK_ACC_FUT_NUMBER)
-                .futAccNumber(FUT_ACC_NUMBER)
                 .marginLending(MARGIN_LENDING_ONE)
                 .moneyOvernight(MONEY_OVERNIGHT_ONE)
                 .securityOvernight(SECURITY_OVERNIGHT)
@@ -37,4 +42,27 @@ public class AgreementGenerator {
                 .tradingAccBrief(TRADING_ACC2_VALUE)
                 .build();
     }
+
+    /*public static BrokerAgreementDto BrokerAgreementDto(){
+
+        Collection<LinkedCodeAccountDto> linkedCodeAccountDtoCollection = new ArrayList<>();
+        LinkedCodeAccountDto linkedCodeAccountDto = new LinkedCodeAccountDto();
+        linkedCodeAccountDto.setSubAgreementID(SUB_AGREEMENT_ID);
+        linkedCodeAccountDto.setMarket(TRADING_SYSTEM_FR);
+        linkedCodeAccountDto.setAccountLinkType(TRADING_ACC_BRIEF);
+        linkedCodeAccountDto.setAccountNumber(TRADING_ACC2_VALUE);
+
+        linkedCodeAccountDtoCollection.add(linkedCodeAccountDto);
+
+        BrokerAgreementDto brokerAgreementDto = new BrokerAgreementDto();
+        brokerAgreementDto.setBrokerAgreementID(AGREEMENT_ID);
+        brokerAgreementDto.setBrAgrNumber(AGREEMENT_CODE);
+        brokerAgreementDto.setBrAgrNumber(BR_AGR_NUMBER);
+        brokerAgreementDto.setClientID(CLIENT_ID);
+        brokerAgreementDto.setClientType(CLIENT_TYPE);
+        brokerAgreementDto.setClientName(CLIENT_NAME);
+        brokerAgreementDto.setLinkedCodesAccounts(linkedCodeAccountDtoCollection);
+
+        return brokerAgreementDto;
+    }*/
 }

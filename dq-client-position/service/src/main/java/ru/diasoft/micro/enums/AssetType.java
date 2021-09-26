@@ -1,5 +1,7 @@
 package ru.diasoft.micro.enums;
 
+import java.util.Arrays;
+
 public enum AssetType {
 
     MONEY(1),
@@ -9,7 +11,7 @@ public enum AssetType {
     COMMODITY(5);
 
 
-    private Integer value;
+    private final Integer value;
 
     AssetType(Integer value) {
         this.value = value;
@@ -17,5 +19,11 @@ public enum AssetType {
 
     public Integer getValue() {
         return value;
+    }
+
+    public static AssetType getAssetTypeByValue(Integer value) {
+        return Arrays.stream(values()).filter(assetType -> assetType.value.equals(value))
+                .findFirst()
+                .orElse(MONEY);
     }
 }

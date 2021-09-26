@@ -21,7 +21,7 @@ class PortfolioStructureRepositoryTest {
 
     public static final String TRADEPORTFOLIO = "tradePortfolio";
     public static final String CLIENT_CODE = "clientCode";
-    public static final String TRADE_PLACE = "tradePlace";
+    public static final int TRADE_PLACE = 1;
     public static final String DEPO_SUB_ACCOUNT = "depoSubAccount";
     public static final Long AGREEMENT_ID = 1L;
 
@@ -46,21 +46,22 @@ class PortfolioStructureRepositoryTest {
     @DisplayName("Сохранять портфель")
     void portfolioStructureCreateTest() {
 
-        assertThat(createdPortfolioStructure).isEqualTo(portfolioStructure);
+        assertThat(portfolioStructure).isEqualToIgnoringGivenFields(createdPortfolioStructure,"portfolioStructureID");
+        assertThat(createdPortfolioStructure.getPortfolioStructureID()).isNotNull();
 
     }
 
     @Test
     @DisplayName("Искать портфель по наименеованию")
     void findByTradePortfolioTest() {
-        Optional<PortfolioStructure> findPortfolioStructure = repository.findByAgreementIDAndTradePortfolio(AGREEMENT_ID, TRADEPORTFOLIO);
+        Optional<PortfolioStructure> findPortfolioStructure = repository.findByBrokerAgreementIDAndTradePortfolio(AGREEMENT_ID, TRADEPORTFOLIO);
         assertThat(findPortfolioStructure).isNotNull();
     }
 
     @Test
     @DisplayName("Искать портфель по коду клиента")
     void findByClientCodeTest() {
-        Optional<PortfolioStructure> findPortfolioStructure = repository.findByAgreementIDAndClientCode(AGREEMENT_ID, CLIENT_CODE);
+        Optional<PortfolioStructure> findPortfolioStructure = repository.findByBrokerAgreementIDAndClientCode(AGREEMENT_ID, CLIENT_CODE);
         assertThat(findPortfolioStructure).isNotNull();
 
     }
@@ -68,7 +69,7 @@ class PortfolioStructureRepositoryTest {
     @Test
     @DisplayName("Искать портфель по месту совершения и разделу счета депо")
     void findByTradePlaceAndDepoSubAccountTest() {
-        Optional<PortfolioStructure> findPortfolioStructure = repository.findByAgreementIDAndTradePlaceAndDepoSubAccount(AGREEMENT_ID, TRADE_PLACE,DEPO_SUB_ACCOUNT);
+        Optional<PortfolioStructure> findPortfolioStructure = repository.findByBrokerAgreementIDAndTradePlaceAndDepoSubAccount(AGREEMENT_ID, TRADE_PLACE,DEPO_SUB_ACCOUNT);
         assertThat(findPortfolioStructure).isNotNull();
 
     }
@@ -76,7 +77,7 @@ class PortfolioStructureRepositoryTest {
     @Test
     @DisplayName("Искать портфель по месту разделу счета депо")
     void findByDepoSubAccountTest() {
-        Optional<PortfolioStructure> findPortfolioStructure = repository.findByAgreementIDAndDepoSubAccount(AGREEMENT_ID, DEPO_SUB_ACCOUNT);
+        Optional<PortfolioStructure> findPortfolioStructure = repository.findByBrokerAgreementIDAndDepoSubAccount(AGREEMENT_ID, DEPO_SUB_ACCOUNT);
         assertThat(findPortfolioStructure).isNotNull();
 
     }

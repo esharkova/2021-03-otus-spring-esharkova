@@ -41,3 +41,21 @@ logging:
 app:
   cron: "0 15 12 * * *"
 
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: ${FEIGN_CLIENT_CONNECT_TIMEOUT:300000}
+        readTimeout: ${FEIGN_CLIENT_READ_TIMEOUT:300000}
+
+dmp:
+  securityProfileUrl: ${DMP_SECURITY_URL:http://qdmpsecurity.dqcl-dqcl.qrun.diasoft.ru/qdmpsecurity/qdmpsecurity}
+  securityProfileGet: ${DMP_SECURITY_GET:/qdmpsecurity/securities}
+
+mdp:
+  tokenService:
+    enabled: ${USE_TOKEN_FOR_FEIGN:false}
+    username: ${TECH_USERNAME}
+    password: ${TECH_PASSWORD}
+    service: ${AUTH_SERVICE:mdpauth}
+

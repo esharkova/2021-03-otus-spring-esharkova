@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.diasoft.micro.domain.Position;
+import ru.diasoft.micro.enrichment.SecurityEnrichment;
 import ru.diasoft.micro.enums.FixFlag;
 import ru.diasoft.micro.enums.PositionDateKind;
 import ru.diasoft.micro.enums.PositionDayDiff;
@@ -23,6 +24,7 @@ import java.util.List;
 public class FixPositionServiceImpl implements FixPositionService {
     private final PositionService positionService;
     private final PositionRepository positionRepository;
+    private final SecurityEnrichment securityEnrichment;
 
     List<Position> deletePositionList = new LinkedList<>();
 
@@ -59,8 +61,11 @@ public class FixPositionServiceImpl implements FixPositionService {
         positionService.savePositionList(newPositionList);
         positionService.setFixFlag(positionIDList, FixFlag.FIXED.getValue(), currentDate);
         positionRepository.deleteAll(deletePositionList);
-
+        //при фиксации позиции необходимо загрузить ценные бумаги
+        securityEnrichment.enrich(positionRepository.findDistinctAssetID());
     }
+
+
 
     private Position createNewDayPosition(Position position) {
 

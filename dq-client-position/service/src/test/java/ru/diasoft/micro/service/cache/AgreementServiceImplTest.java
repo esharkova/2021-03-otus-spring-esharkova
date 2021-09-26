@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 import ru.diasoft.micro.domain.Agreement;
 import ru.diasoft.micro.generator.AgreementGenerator;
+import ru.diasoft.micro.model.BrokerAgreementDto;
 import ru.diasoft.micro.repository.AgreementRepository;
 import ru.diasoft.micro.service.cache.AgreementServiceImpl;
 
@@ -25,6 +26,8 @@ import static org.mockito.Mockito.*;
 @ActiveProfiles("test")
 class AgreementServiceImplTest {
     public static final String AGREEMENT_CODE = "agreementCode";
+    public static final String TRADING_ACC_BRIEF = "1_ТОРГ";
+    public static final String TRADING_SYSTEM_FR = "Мосбиржа ФР";
 
     @Mock
     private AgreementRepository agreementRepository;
@@ -37,7 +40,6 @@ class AgreementServiceImplTest {
 
     @BeforeEach
     void setUp() {
-
         agreement = AgreementGenerator.getAgreement();
     }
 
@@ -72,5 +74,26 @@ class AgreementServiceImplTest {
         agreementService.delete(createdAgreement.getAgreementID());
         Agreement foundAgreement = agreementService.findByAgreementCode(createdAgreement.getAgreementCode());
         assertNull(foundAgreement);
+
     }
+
+    /*@Test
+    void transformDtoToAgreementTest() {
+
+        BrokerAgreementDto brokerAgreementDto = AgreementGenerator.BrokerAgreementDto();
+
+        Agreement transformedAgreement = agreementService.transformDtoToAgreement(brokerAgreementDto);
+        assertNotNull(transformedAgreement);
+        assertEquals(transformedAgreement.getAgreementID(),brokerAgreementDto.getBrokerAgreementID());
+        assertEquals(transformedAgreement.getAgreementCode(),brokerAgreementDto.getBrAgrNumber());
+        assertEquals(transformedAgreement.getBrAgrNumber(),brokerAgreementDto.getBrAgrNumber());
+        assertEquals(transformedAgreement.getTradingAccBrief(),brokerAgreementDto.getLinkedCodesAccounts().stream()
+                .filter(a->a.getAccountLinkType().equals(TRADING_ACC_BRIEF)&a.getMarket().equals(TRADING_SYSTEM_FR))
+                .findFirst().get().getAccountNumber());
+        assertEquals(transformedAgreement.getClientID(),brokerAgreementDto.getClientID());
+        assertEquals(transformedAgreement.getClientType(),brokerAgreementDto.getClientType());
+        assertEquals(transformedAgreement.getClientName(),brokerAgreementDto.getClientName());
+
+    }*/
+
 }

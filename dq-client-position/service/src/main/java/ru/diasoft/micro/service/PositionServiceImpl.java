@@ -34,6 +34,11 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
+    public List<Position> findByFixFlagAndPositionDateKind(Integer fixFlag, Integer positionDateKind) {
+        return repository.findByFixFlagAndPositionDateKind(fixFlag, positionDateKind);
+    }
+
+    @Override
     public List<Position> findByFixFlagAndPositionDateKindNot(Integer fixFlag, Integer positionDateKind) {
         return repository.findByFixFlagAndPositionDateKindNot(fixFlag, positionDateKind);
     }

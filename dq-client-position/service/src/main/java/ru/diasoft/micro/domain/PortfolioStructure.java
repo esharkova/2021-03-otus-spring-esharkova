@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author mkushcheva
@@ -31,8 +28,11 @@ public class PortfolioStructure {
     @Column(name = "priority")
     private Integer priority;
 
-    @Column(name = "agreementid")
-    private Long agreementID;
+    @Column(name = "brokeragreementid")
+    private Long brokerAgreementID;
+
+    @Column(name = "subagreementid")
+    private Long subAgreementID;
 
     @Column(name = "clientcode")
     private String clientCode;
@@ -41,10 +41,7 @@ public class PortfolioStructure {
     private Integer market;
 
     @Column(name = "tradeplace")
-    private String tradePlace;
-
-    @Column(name = "tradeportfolioid")
-    private Long tradePortfolioID;
+    private Integer tradePlace;
 
     @Column(name = "tradeportfolio")
     private String tradePortfolio;
@@ -57,4 +54,11 @@ public class PortfolioStructure {
 
     @Column(name = "deposubaccount")
     private String depoSubAccount;
+
+    @Column(name = "deposubaccounttype")
+    private String depoSubAccountType;
+
+    @Column(name = "clearingplace")
+    private String clearingPlace;
+
 }

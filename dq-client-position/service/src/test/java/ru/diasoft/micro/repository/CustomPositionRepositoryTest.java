@@ -33,6 +33,8 @@ public class CustomPositionRepositoryTest {
     private CurrencyRepository currencyRepository;
     @Autowired
     private PortfolioStructureRepository portfolioStructureRepository;
+    @Autowired
+    private BrokAccountRepository brokAccountRepository;
 
     @AfterEach
     void repositoryDelete() {
@@ -43,6 +45,7 @@ public class CustomPositionRepositoryTest {
         securityRepository.deleteAll();
         currencyRepository.deleteAll();
         portfolioStructureRepository.deleteAll();
+        brokAccountRepository.deleteAll();
     }
 
     @Test
@@ -71,6 +74,7 @@ public class CustomPositionRepositoryTest {
         securityRepository.save(SecurityGenerator.getSecurity());
         currencyRepository.save(CurrencyGenerator.getCurrency());
         portfolioStructureRepository.saveAll(PortfolioStructureGenerator.getPortfolioStructures());
+        brokAccountRepository.save(BrokAccountGenerator.getBrokAccount());
 
         posRepository.saveAll(CustomPositionGenerator.getPositionListForCustomPositionTest());
         repository.insertPositionIntoCustomPosition(CustomPositionGenerator.POSDATEKINDT0_VALUE, CustomPositionGenerator.CUSTOMID1, ZonedDateTime.now());
@@ -91,27 +95,24 @@ public class CustomPositionRepositoryTest {
             assertThat(customPosition.getPortfolioBrief()).isNotNull();
             assertThat(customPosition.getDepoStorageLocation()).isNotNull();
             assertThat(customPosition.getAccountClient()).isEqualTo(PortfolioStructureGenerator.BROK_ACCOUNT);
-            assertThat(customPosition.getAccountFut()).isEqualTo(PortfolioStructureGenerator.CLIENT_CODE_FORACCOUNTFUT);
+            assertThat(customPosition.getAccountFut()).isEqualTo(BrokAccountGenerator.DERIV_ACCOUNT);
 
             if (customPosition.getAssetType().equals(CustomPositionGenerator.ASSETTYPE_CUR_VALUE)) {
                 assertThat(customPosition.getFinInstrumentCode()).isEqualTo(CurrencyGenerator.CURRENCY_BRIEF);
                 assertThat(customPosition.getInstrumentName()).isEqualTo(CurrencyGenerator.CURRENCY_BRIEF);
                 assertThat(customPosition.getIsin()).isEqualTo("");
                 assertThat(customPosition.getTradingAcc()).isEqualTo("");
-                assertThat(customPosition.getDepoStorageLocation()).isEqualTo("НРД (основ)");
 
             } else if (customPosition.getAssetType().equals(CustomPositionGenerator.ASSETTYPE_DER_VALUE)) {
                 assertThat(customPosition.getFinInstrumentCode()).isEqualTo(SecurityGenerator.SECURITY_CODE);
                 assertThat(customPosition.getInstrumentName()).isEqualTo(SecurityGenerator.SECURITY_BRIEF);
                 assertThat(customPosition.getIsin()).isEqualTo("");
                 assertThat(customPosition.getTradingAcc()).isEqualTo("");
-                assertThat(customPosition.getDepoStorageLocation()).isEqualTo("НРД (торг)");
             } else {
                 assertThat(customPosition.getFinInstrumentCode()).isEqualTo(SecurityGenerator.SECURITY_CODE);
                 assertThat(customPosition.getInstrumentName()).isEqualTo(SecurityGenerator.SECURITY_NAME);
                 assertThat(customPosition.getIsin()).isEqualTo(SecurityGenerator.ISIN);
-                assertThat(customPosition.getTradingAcc()).isEqualTo(AgreementGenerator.TRADING_ACC2_VALUE);
-                assertThat(customPosition.getDepoStorageLocation()).isEqualTo("БЭБ (основ)");
+                assertThat(customPosition.getTradingAcc()).isEqualTo(BrokAccountGenerator.TRADING_ACCOUNT);
             }
         }
     }

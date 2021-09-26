@@ -35,4 +35,13 @@ public class PositionConst {
     }
 
     public static final String MAINFILTERNAME = "positionDateKind";
+
+    public static final HashMap<String, Integer> marketTradePlaces = new HashMap<>();
+
+    static {
+        marketTradePlaces.put("Мосбиржа ФР", 1);
+        marketTradePlaces.put("Мосбиржа ВР", 1);
+        marketTradePlaces.put("Мосбиржа СР", 1);
+        marketTradePlaces.put("Внебиржа (ЦБ)", 3);
+    }
 }

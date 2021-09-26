@@ -29,8 +29,6 @@
             </column>
             <column name="clientid" type="NUMERIC(15,0)" remarks="Идентификатор клиента">
             </column>
-            <column name="agreementid" type="NUMERIC(15,0)" remarks="Идентификатор договора">
-            </column>
             <column name="portfoliostructureid" type="NUMERIC(15,0)" remarks="Идентификатор структуры портфеля"/>
             <column name="assetid" type="NUMERIC(15,0)" remarks="Идентификатор актива">
             </column>
@@ -55,7 +53,6 @@
             <column name="assettype" type="INTEGER" remarks="Тип актива позиции"/>
             <column name="custody" type="VARCHAR(25)" remarks="Хранилище"/>
             <column name="depoacctype" type="INTEGER" remarks="Тип счета ДЕПО"/>
-            <column name="tradePlace" type="INTEGER" remarks="Место совершения операции"/>
         </createTable>
         <createIndex tableName="clntpos_positions" indexName="pk_clntpos_positions" unique="true">
             <column name="positionid"/>
@@ -177,18 +174,23 @@
                 <tableExists tableName="clntpos_portfoliostructure"/>
             </not>
         </preConditions>
+
+        <createSequence sequenceName="clntpos_portfoliostructure_seq_id" incrementBy="1" startValue="1"/>
+
         <createTable tableName="clntpos_portfoliostructure">
             <column name="portfoliostructureid" type="NUMERIC(15,0)" remarks="Идентификатор"/>
             <column name="priority" type="INTEGER" remarks="Приоритет"/>
-            <column name="agreementid" type="NUMERIC(15,0)" remarks="Идентификатор договора"/>
+            <column name="brokeragreementid" type="NUMERIC(15,0)" remarks="Идентификатор юридического договора"/>
+            <column name="subagreementid" type="NUMERIC(15,0)" remarks="Идентификатор модульного договора"/>
             <column name="clientcode" type="VARCHAR(50)" remarks="Код клиента"/>
             <column name="market" type="INTEGER" remarks="Рынок"/>
-            <column name="tradeplace" type="VARCHAR(50)" remarks="Место совершения операции"/>
-            <column name="tradeportfolioid" type="VARCHAR(50)" remarks="Идентификатор портфеля"/>
+            <column name="tradeplace" type="INTEGER" remarks="Место совершения операции"/>
             <column name="tradeportfolio" type="VARCHAR(50)" remarks="Торговый портфель"/>
             <column name="secsettaccount" type="VARCHAR(50)" remarks="Расчетный счет по ценным бумагам"/>
             <column name="brokaccount" type="VARCHAR(50)" remarks="Расчетный счет по ценным бумагам"/>
             <column name="deposubaccount" type="VARCHAR(50)" remarks="Раздел счета ДЕПО"/>
+            <column name="deposubaccounttype" type="VARCHAR(50)" remarks="Тип раздела счета ДЕПО"/>
+            <column name="clearingplace" type="VARCHAR(50)" remarks="Место хранения"/>
         </createTable>
         <createIndex tableName="clntpos_portfoliostructure" indexName="pk_clntpos_portfoliostructure" unique="true">
             <column name="portfoliostructureid"/>
@@ -207,16 +209,10 @@
             <column name="agreementid" type="NUMERIC(15,0)" remarks="Идентификатор клиента"/>
             <column name="agreementcode" type="VARCHAR(50)" remarks="Код договора"/>
             <column name="bragrnumber" type="VARCHAR(50)" remarks="Номер юридического договора"/>
-            <column name="brokaccfondnumber" type="VARCHAR(50)" remarks="Номер брокерского счета, связанный с модульным ДО фондового рынка"/>
-            <column name="brokaccfutnumber" type="VARCHAR(50)" remarks="Номер брокерского счета, связанный с модульным ДО срочного рынка"/>
-            <column name="futaccnumber" type="VARCHAR(50)" remarks="Код клирингового регистра"/>
-            <column name="moneyovernight" type="INTEGER" remarks="Акцепт овернайтов по ДС"/>
-            <column name="securityovernight" type="INTEGER" remarks="Акцепт овернайтов по ЦБ"/>
-            <column name="marginlending" type="INTEGER" remarks="Акцепт маржинального кредитования"/>
-            <column name="tradingaccid" type="NUMERIC(15,0)" remarks="Идентификатор торгового счета"/>
-            <column name="tradingaccbrief" type="VARCHAR(50))" remarks="Место хранения"/>
-            <column name="portfolioid" type="NUMERIC(15,0)" remarks="Идентификатор портфеля"/>
-            <column name="portfoliobrief" type="VARCHAR(50)" remarks="Портфель"/>
+            <column name="moneyovernight" type="INTEGER" remarks=""/>
+            <column name="securityovernight" type="INTEGER" remarks=""/>
+            <column name="marginlending" type="INTEGER" remarks=""/>
+            <column name="tradingaccbrief" type="VARCHAR(50))" remarks=""/>
             <column name="clientid" type="NUMERIC(15,0)" remarks="Идентификатор клиента"/>
             <column name="clienttype" type="INTEGER" remarks="Тип клиента"/>
             <column name="clientname" type="VARCHAR(160)" remarks="Имя клиента"/>
@@ -224,10 +220,6 @@
         <createIndex tableName="clntpos_agreement" indexName="pk_clntpos_agreement" unique="true">
             <column name="agreementid"/>
         </createIndex>
-        <createIndex tableName="clntpos_agreement" indexName="k01_clntpos_agreement" unique="true">
-            <column name="agreementcode"/>
-        </createIndex>
-
         <comment>Create of clntpos_agreement table</comment>
     </changeSet>
 
@@ -292,7 +284,7 @@
             </column>
             <column name="securitycode" type="VARCHAR(10)" remarks="Код ценной бумаги">
             </column>
-            <column name="securityname" type="VARCHAR(50)" remarks="Полное наименование ценной бумаги">
+            <column name="securityname" type="VARCHAR(255)" remarks="Полное наименование ценной бумаги">
             </column>
             <column name="securitybrief" type="VARCHAR(50)" remarks="Сокращенное наименование ценной бумаги">
             </column>
@@ -312,5 +304,106 @@
         <comment>Create of clntpos_security table</comment>
     </changeSet>
 
+    <changeSet id="clntpos_limits_create" author="ryanin">
+    <preConditions onFail="MARK_RAN">
+        <not>
+            <tableExists tableName="clntpos_limits"/>
+        </not>
+    </preConditions>
+    <createSequence sequenceName="clntpos_limits_positions_seq_id" incrementBy="1" startValue="1"/>
+    <createTable tableName="clntpos_limits">
+        <column name="requestid" type="NUMERIC(15,0)" autoIncrement="${autoIncrement}" defaultValueSequenceNext="clntpos_limits_positions_seq_id"
+                remarks="Уникальный идентификатор входящего события">
+        </column>
+        <column name="requestdate" type="TIMESTAMP" remarks="Дата, по которой определяется необходимость формирования заявки">
+        </column>
+        <column name="objectpostype" type="INTEGER" remarks="Тип внешнего объекта">
+        </column>
+        <column name="objectposnumber" type="VARCHAR(50)" remarks="Номер внешнего объекта">
+        </column>
+        <column name="objectposid" type="NUMERIC(15,0)" remarks="Уникальный идентификатор внешнего объекта">
+        </column>
+        <column name="requesttype" type="INTEGER" remarks="Тип запроса">
+        </column>
+        <column name="singleaccflag" type="INTEGER" remarks="Признак единого счета">
+        </column>
+        <column name="clientcode" type="VARCHAR(50)" remarks="Код клиента">
+        </column>
+        <column name="requeststatus" type="INTEGER" remarks="Статус обработки запроса">
+        </column>
+    </createTable>
+        <createIndex tableName="clntpos_limits" indexName="pk_limits" unique="true">
+            <column name="requestid"/>
+        </createIndex>
+</changeSet>
+
+    <changeSet id="clntpos_markets_create" author="ryanin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="clntpos_markets"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="clntpos_markets_positions_seq_id" incrementBy="1" startValue="1"/>
+        <createTable tableName="clntpos_markets">
+            <column name="marketsid" type="NUMERIC(15,0)" autoIncrement="${autoIncrement}" defaultValueSequenceNext="clntpos_markets_positions_seq_id"
+                    remarks="Уникальный идентификатор входящего события">
+            </column>
+            <column name="requestid" type="NUMERIC(15,0)" remarks="Ссылка на родительский объект">
+            </column>
+            <column name="market" type="VARCHAR(50)" remarks="Наименование рынка">
+            </column>
+            <column name="trdacccode" type="VARCHAR(50)" remarks="Код торгового счета ">
+            </column>
+        </createTable>
+        <createIndex tableName="clntpos_markets" indexName="pk_markets" unique="true">
+            <column name="marketsid"/>
+        </createIndex>
+        <createIndex tableName="clntpos_markets" indexName="k02_markets">
+            <column name="requestid"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="clntpos_brocaccount_create" author="esharkova">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="clntpos_brocaccount"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="clntpos_brocaccount">
+            <column name="agreementid" type="NUMERIC(15,0)" remarks="Идентификатор юоридического договора"/>
+            <column name="brokaccount" type="VARCHAR(50)" remarks="Брокерский счет"/>
+            <column name="tradingaccount" type="VARCHAR(50)" remarks="Торгово клиринговый счет"/>
+            <column name="derivaccount" type="VARCHAR(50)" remarks="Торгово клиринговый счет"/>
+            <column name="moneyovernight" type="INTEGER" remarks="Акцепт овернайтов по ДС"/>
+            <column name="securityovernight" type="INTEGER" remarks="Акцепт овернайтов по ЦБ"/>
+            <column name="marginlending" type="INTEGER" remarks="Акцепт маржинального кредитования"/>
+            <column name="uccmoex" type="VARCHAR(50)" remarks="Единый клиентский код (на Московской бирже)"/>
+        </createTable>
+
+        <comment>Create of clntpos_brocaccount table</comment>
+    </changeSet>
+
+    <changeSet id="clntpos_portfolio_create" author="esharkova">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="clntpos_portfolio"/>
+            </not>
+        </preConditions>
+
+        <createSequence sequenceName="clntpos_portfolio_seq_id" incrementBy="1" startValue="1"/>
+
+        <createTable tableName="clntpos_portfolio">
+            <column name="portfolioid" type="NUMERIC(15,0)" remarks="Идентификатор"/>
+            <column name="brokaccount" type="VARCHAR(50)" remarks="Расчетный счет по ценным бумагам"/>
+            <column name="clearingplace" type="VARCHAR(50)" remarks="Место хранения"/>
+            <column name="deposubaccounttype" type="VARCHAR(50)" remarks="Тип раздела счета ДЕПО"/>
+            <column name="tradeportfolio" type="VARCHAR(50)" remarks="Торговый портфель"/>
+        </createTable>
+        <createIndex tableName="clntpos_portfolio" indexName="pk_clntpos_portfolio" unique="true">
+            <column name="portfolioid"/>
+        </createIndex>
+        <comment>Create of clntpos_portfolio table</comment>
+    </changeSet>
 
 </databaseChangeLog>

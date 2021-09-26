@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,15 +25,6 @@ public class Agreement {
     @Column(name = "bragrnumber")
     private String brAgrNumber;
 
-    @Column(name = "brokaccfondnumber")
-    private String brokAccFondNumber;
-
-    @Column(name = "brokaccfutnumber")
-    private String brokAccFutNumber;
-
-    @Column(name = "futaccnumber")
-    private String futAccNumber;
-
     @Column(name = "moneyovernight")
     private Integer moneyOvernight;
 
@@ -46,17 +34,8 @@ public class Agreement {
     @Column(name = "marginlending")
     private Integer marginLending;
 
-    @Column(name = "tradingaccid")
-    private Long tradingAccID;
-
     @Column(name = "tradingaccbrief")
     private String tradingAccBrief;
-
-    @Column(name = "portfolioid")
-    private Long portfolioID;
-
-    @Column(name = "portfoliobrief")
-    private String portfolioBrief;
 
     @Column(name = "clientid")
     private Long clientID;
